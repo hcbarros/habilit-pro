@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 
 public class Validador {
 
-    public static boolean ehCpfValido(String cpf, boolean inicio) {
+    public static boolean ehCpfValido(String cpf) {
         return ehDocumentoValido(cpf, true, 11);
     }
 
-    public static boolean ehCnpjValido(String cnpj, boolean inicio) {
+    public static boolean ehCnpjValido(String cnpj) {
         return ehDocumentoValido(cnpj, true, 14);
     }
 
@@ -23,7 +23,6 @@ public class Validador {
         for (int j = 0; j < (inicio ? (size-2) : (size-1)); j++) {
             if(big.toString().equals(doc)) return false;
             big = big.add(new BigDecimal("11111111111"));
-            System.out.println(big);
             soma += (doc.charAt(j) - '0') * (desc = (--desc) == 1 ? 9 : desc);
         }
         int resp = (soma % 11) < 2 ? 0 : (11 - (soma % 11));
