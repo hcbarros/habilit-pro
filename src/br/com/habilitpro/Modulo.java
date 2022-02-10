@@ -14,7 +14,7 @@ public class Modulo {
     public Modulo(Trilha trilha, String nome,
                   List<String> habilidades, String tarefaValidacao) {
 
-        
+
     }
 
 }
