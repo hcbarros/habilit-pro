@@ -5,6 +5,7 @@ import br.com.habilitpro.enums.Satisfacao;
 import static br.com.habilitpro.utils.Contador.contar;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -48,7 +49,7 @@ public class Trilha {
     }
 
     public List<Modulo> getModulos() {
-        return modulos;
+        return Collections.unmodifiableList(modulos);
     }
 
     public void addModulo(Modulo modulo) {

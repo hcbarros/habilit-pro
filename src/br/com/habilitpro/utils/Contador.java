@@ -10,7 +10,7 @@ public class Contador {
 
     private static Map<String, Integer> nomes = new HashMap<>();
 
-    public static int contar(String ocupacao, Empresa empresa) throws IllegalArgumentException {
+    public static int contar(String ocupacao, Empresa empresa) {
         if(empresa == null || ocupacao == null || ocupacao.isBlank() || ocupacao.isEmpty()) {
             throw new IllegalArgumentException("Informe a ocupação e a empresa!");
         }

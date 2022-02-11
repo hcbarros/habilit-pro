@@ -5,6 +5,8 @@ import br.com.habilitpro.enums.Segmento;
 import br.com.habilitpro.enums.TipoEmpresa;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static br.com.habilitpro.utils.Validador.ehCnpjValido;
@@ -128,7 +130,7 @@ public class Empresa {
     }
 
     public List<Trilha> getTrilhas() {
-        return trilhas;
+        return Collections.unmodifiableList(trilhas);
     }
 
     public void addTrilha(Trilha trilha) {
