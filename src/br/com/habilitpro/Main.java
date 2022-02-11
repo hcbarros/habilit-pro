@@ -1,8 +1,6 @@
 package br.com.habilitpro;
 
-import br.com.habilitpro.enums.Regional;
-import br.com.habilitpro.enums.Segmento;
-import br.com.habilitpro.enums.TipoEmpresa;
+import br.com.habilitpro.enums.Perfil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,12 +13,25 @@ import static br.com.habilitpro.utils.Validador.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    static List<Perfil> list = new ArrayList<>();
 
-        // System.out.println(ehCpfValido("02657226400"));
-        // System.out.println(buscarEstados());
-        // System.out.println(buscarCidades("3392268"));
+    public static void main(String[] args) {
 
+//         System.out.println(ehCpfValido("02657226400"));
+//         System.out.println(buscarEstados());
+//         System.out.println(buscarCidades("3392268"));
+
+
+        addPerfis(Perfil.RH, Perfil.ADMINISTRATIVO, null);
+        list.forEach(System.out::println);
+    }
+
+    public static void addPerfis(Perfil...perfis) {
+        if(perfis != null) {
+            Arrays.asList(perfis).forEach(p -> {
+                if(p != null) list.add(p);
+            });
+        }
     }
 
 }

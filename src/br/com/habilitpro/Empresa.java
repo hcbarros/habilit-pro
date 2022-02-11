@@ -5,7 +5,6 @@ import br.com.habilitpro.enums.Segmento;
 import br.com.habilitpro.enums.TipoEmpresa;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class Empresa {
     }
 
     public void setCnpj(String cnpj) {
-        if(!ehCnpjValido(cnpj)) {
+        if(cnpj == null || !ehCnpjValido(cnpj)) {
             throw new IllegalArgumentException("CNPJ inválido!");
         }
         cnpj = cnpj.replaceAll("[^\\d]", "");
@@ -134,8 +133,9 @@ public class Empresa {
     }
 
     public void addTrilha(Trilha trilha) {
-        if(trilha == null) return;
-        this.trilhas.add(trilha);
+        if(trilha != null) {
+            this.trilhas.add(trilha);
+        }
     }
 
 }

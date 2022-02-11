@@ -1,6 +1,8 @@
 package br.com.habilitpro.utils;
 
 import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Validador {
@@ -30,5 +32,31 @@ public class Validador {
         return inicio ? ((dig == resp) && ehDocumentoValido(doc,false, size)) : (dig == resp);
     }
 
+    public static boolean ehEmailValido(String email) {
+        if(email != null) {
+            Pattern pattern = Pattern
+                    .compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher("    ");
+            return pattern.matcher(email).matches();
+        }
+        return false;
+    }
+
+    public static boolean ehSenhaValida(String senha) {
+        boolean temNumero = false;
+        boolean temLetra = false;
+        if(senha != null) {
+            for(char c: senha.toCharArray()) {
+                if(Character.isDigit(c)) {
+                    temNumero = true;
+                }
+                if(Character.isLetter(c)) {
+                    temLetra = true;
+                }
+            }
+            return temLetra && temNumero;
+        }
+        return false;
+    }
 
 }

@@ -54,9 +54,11 @@ public class Modulo {
     }
 
     public void definirStatus(Status status) {
-        if(inicioAvaliacao != null &&
-                Period.between(inicioAvaliacao, LocalDate.now()).getDays() >= prazo_limite) {
-            this.status = Status.FINALIZADO;
+        if(inicioAvaliacao != null) {
+            int periodo = Period.between(inicioAvaliacao, LocalDate.now()).getDays();
+            if(periodo >= prazo_limite) {
+                this.status = Status.FINALIZADO;
+            }
         }
         if(this.status != Status.FINALIZADO) {
             if(status == Status.EM_FASE_AVALIACAO) {
@@ -79,9 +81,11 @@ public class Modulo {
     }
 
     public void addHabilidades(String ...habilidades) {
-        if(habilidades == null) return;
-        this.habilidades.addAll(Arrays.asList(habilidades));
-        this.habilidades.removeIf(h -> h == null);
+        if(habilidades != null) {
+            Arrays.asList(habilidades).forEach(h -> {
+                if(h != null) this.habilidades.add(h);
+            });
+        }
     }
 
     public int getPrazo_limite() {

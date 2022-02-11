@@ -53,7 +53,9 @@ public class Trilha {
     }
 
     public void addModulo(Modulo modulo) {
-        modulos.add(modulo);
+        if(modulo != null){
+            modulos.add(modulo);
+        }
     }
 
     public Satisfacao getSatisfacao() {
