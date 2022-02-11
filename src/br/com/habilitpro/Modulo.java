@@ -1,6 +1,9 @@
 package br.com.habilitpro;
 
+import br.com.habilitpro.enums.Status;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Modulo {
@@ -9,12 +12,17 @@ public class Modulo {
     private String nome;
     private List<String> habilidades;
     private String tarefaValidacao;
-    private final int PRAZO_LIMITE = 10;
+    private Status status;
+    private int prazo_limite = 10;
 
     public Modulo(Trilha trilha, String nome,
                   List<String> habilidades, String tarefaValidacao) {
 
+        this.trilha = trilha;
+        this.habilidades = new ArrayList<>();
 
+
+        this.trilha.addModulo(this);
     }
 
 }

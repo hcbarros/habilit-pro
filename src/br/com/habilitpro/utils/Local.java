@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class Local {
 
     private static List<String> idEstados = new ArrayList<>();
-    private static TreeMap<String, String> map = new TreeMap<>();
 
 
     public static TreeMap<String, String> buscarEstados() {
@@ -38,6 +37,7 @@ public class Local {
 
     private static TreeMap<String, String> buscarLocais(String geonameId) {
 
+        TreeMap<String, String> map = new TreeMap<>();
         System.out.print("\nAguarde...");
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
@@ -45,7 +45,7 @@ public class Local {
                 .build();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://www.geonames.org/children?geonameId="+geonameId))
+                .uri(URI.create("http://www.geonames.org/children?lang=pt&geonameId="+geonameId))
                 .build();
 
         try {
@@ -59,8 +59,6 @@ public class Local {
             InputSource is = new InputSource();
             is.setCharacterStream(new StringReader(responseBody));
             Document doc = db.parse(is);
-
-            map.clear();
 
             NodeList geonames = doc.getElementsByTagName("geoname");
             for (int i = 0; i < geonames.getLength(); i++) {

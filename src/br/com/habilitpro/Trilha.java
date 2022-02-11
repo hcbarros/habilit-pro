@@ -1,6 +1,12 @@
 package br.com.habilitpro;
 
+import br.com.habilitpro.enums.Satisfacao;
+
+import static br.com.habilitpro.utils.Contador.contar;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Trilha {
 
@@ -8,19 +14,63 @@ public class Trilha {
     private String ocupacao;
     private String nome;
     private String apelido;
-    private static int sequencial;
+    private List<Modulo> modulos;
+    private Satisfacao satisfacao;
+    private String anotacoes;
 
     public Trilha(Empresa empresa, String ocupacao) {
 
-        if(empresa == null) {
-            throw new IllegalArgumentException("A trilha deve estar associada a uma empresa!");
+        if(empresa == null || ocupacao == null || ocupacao.isBlank() || ocupacao.isEmpty()) {
+            throw new IllegalArgumentException("Informe a ocupação e a empresa!");
         }
-        if(ocupacao == null || ocupacao.isEmpty() || ocupacao.isBlank()) {
-            throw new IllegalArgumentException("Informe uma ocupação para a trilha!");
+        this.empresa = empresa;
+        int count = contar(ocupacao, empresa);
+        nome = ocupacao + empresa.getNome() + count + LocalDate.now().getYear();
+        apelido = ocupacao + count;
+        modulos = new ArrayList<>();
+    }
+
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public String getOcupacao() {
+        return ocupacao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getApelido() {
+        return apelido;
+    }
+
+    public List<Modulo> getModulos() {
+        return modulos;
+    }
+
+    public void addModulo(Modulo modulo) {
+        modulos.add(modulo);
+    }
+
+    public Satisfacao getSatisfacao() {
+        return satisfacao;
+    }
+
+    public void setSatisfacao(Satisfacao satisfacao) {
+        if(satisfacao != null) {
+            this.satisfacao = satisfacao;
         }
-        nome = ocupacao + empresa.getNome() +
-                (++sequencial) + LocalDate.now().getYear();
-        apelido = ocupacao + sequencial;
+    }
+
+    public String getAnotacoes() {
+        return anotacoes;
+    }
+
+    public void setAnotacoes(String anotacoes) {
+        this.anotacoes = anotacoes;
     }
 
 }

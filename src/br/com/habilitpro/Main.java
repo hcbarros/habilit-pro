@@ -11,7 +11,7 @@ public class Main {
 
         // System.out.println(ehCpfValido("02657226400"));
         System.out.println(buscarEstados());
-        System.out.println(buscarCidades("3408096"));
+        System.out.println(buscarCidades("3392268"));
     }
 
 }
