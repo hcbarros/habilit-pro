@@ -83,7 +83,9 @@ public class Modulo {
     public void addHabilidades(String ...habilidades) {
         if(habilidades != null) {
             Arrays.asList(habilidades).forEach(h -> {
-                if(h != null) this.habilidades.add(h);
+                if(h != null && !this.habilidades.contains(h.toUpperCase())) {
+                    this.habilidades.add(h.toUpperCase());
+                }
             });
         }
     }

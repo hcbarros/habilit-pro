@@ -15,12 +15,12 @@ public class Usuario extends Pessoa {
     private List<Perfil> perfis;
 
 
-    public Usuario(String nome, String cpf, String email, String senha, Perfil ...perfis) {
+    public Usuario(String nome, String cpf, String email, String senha, Perfil perfil) {
         super(nome, cpf);
         setEmail(email);
         setSenha(senha);
         this.perfis = new ArrayList<>();
-        addPerfis(perfis);
+        addPerfil(perfil);
     }
 
     public String getEmail() {
@@ -49,13 +49,9 @@ public class Usuario extends Pessoa {
         return Collections.unmodifiableList(perfis);
     }
 
-    public void addPerfis(Perfil ...perfis) {
-        if(perfis != null) {
-            Arrays.asList(perfis).forEach(p -> {
-                if(p != null && !this.perfis.contains(p)) {
-                    this.perfis.add(p);
-                }
-            });
+    public void addPerfil(Perfil perfil) {
+        if(perfil != null && !perfis.contains(perfil)) {
+            perfis.add(perfil);
         }
     }
 

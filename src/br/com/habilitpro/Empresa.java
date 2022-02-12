@@ -133,8 +133,8 @@ public class Empresa {
     }
 
     public void addTrilha(Trilha trilha) {
-        if(trilha != null) {
-            this.trilhas.add(trilha);
+        if(trilha != null && !trilhas.contains(trilha)) {
+            trilhas.add(trilha);
         }
     }
 
