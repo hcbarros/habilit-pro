@@ -1,6 +1,8 @@
 package br.com.habilitpro.enums;
 
-public enum Segmento {
+import br.com.habilitpro.interfaces.AuxilioEnum;
+
+public enum Segmento implements AuxilioEnum {
 
     ALIMENTOS_E_BEBIDAS("Alimentos e bebidas"),
     CELULOSE_E_PAPEL("Celulose e papel"),
@@ -29,7 +31,7 @@ public enum Segmento {
         this.nome = nome;
     }
 
-    public String getName() {
+    public String getNome() {
         return nome;
     }
 

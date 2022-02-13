@@ -1,6 +1,19 @@
 package br.com.habilitpro.enums;
 
-public enum TipoEmpresa {
+import br.com.habilitpro.interfaces.AuxilioEnum;
 
-    MATRIZ, FILIAL;
+public enum TipoEmpresa implements AuxilioEnum {
+
+    MATRIZ("Matriz"),
+    FILIAL("Filial");
+
+    private String nome;
+
+    TipoEmpresa(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 }

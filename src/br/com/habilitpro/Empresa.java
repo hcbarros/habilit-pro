@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static br.com.habilitpro.utils.Validador.ehCnpjValido;
+import static br.com.habilitpro.utils.Validador.*;
 
 public class Empresa {
 
@@ -25,14 +25,14 @@ public class Empresa {
     public Empresa(String nome, String cnpj, TipoEmpresa tipo, String nomeFilial,
                     Segmento segmento, String estado, String cidade, Regional regional) {
 
-        setNome(nome);
+        this.nome = nome;
         setCnpj(cnpj);
-        setTipo(tipo);
-        setNomeFilial(nomeFilial);
-        setSegmento(segmento);
-        setEstado(estado);
-        setCidade(cidade);
-        setRegional(regional);
+        this.tipo = tipo;
+        this.nomeFilial = nomeFilial;
+        this.segmento = segmento;
+        this.estado = estado;
+        this.cidade = cidade;
+        this.regional = regional;
         this.trilhas = new ArrayList<>();
     }
 
@@ -41,9 +41,6 @@ public class Empresa {
     }
 
     public void setNome(String nome) {
-        if(nome == null || nome.isBlank() || nome.isEmpty()) {
-            throw new IllegalArgumentException("Informe o nome da empresa!");
-        }
         this.nome = nome;
     }
 
@@ -52,9 +49,6 @@ public class Empresa {
     }
 
     public void setCnpj(String cnpj) {
-        if(cnpj == null || !ehCnpjValido(cnpj)) {
-            throw new IllegalArgumentException("CNPJ inválido!");
-        }
         cnpj = cnpj.replaceAll("[^\\d]", "");
         this.cnpj = cnpj.substring(0,2)+"."+ cnpj.substring(2,5)+"."+
                 cnpj.substring(5,8)+"/"+ cnpj.substring(8,12)+"-"+ cnpj.substring(12,14);
@@ -65,9 +59,6 @@ public class Empresa {
     }
 
     public void setTipo(TipoEmpresa tipo) {
-        if(tipo == null) {
-            throw new IllegalArgumentException("Informe o tipo da empresa!");
-        }
         this.tipo = tipo;
     }
 
@@ -77,9 +68,6 @@ public class Empresa {
 
     public void setNomeFilial(String nomeFilial) {
         if(tipo == TipoEmpresa.FILIAL) {
-            if(nomeFilial == null || nomeFilial.isEmpty() || nomeFilial.isBlank()) {
-                throw new IllegalArgumentException("Informe o nome da filial!");
-            }
             this.nomeFilial = nomeFilial;
         }
     }
@@ -89,9 +77,6 @@ public class Empresa {
     }
 
     public void setSegmento(Segmento segmento) {
-        if(segmento == null) {
-            throw new IllegalArgumentException("Informe o segmento da empresa!");
-        }
         this.segmento = segmento;
     }
 
@@ -100,9 +85,6 @@ public class Empresa {
     }
 
     public void setEstado(String estado) {
-        if(estado == null || estado.isBlank() || estado.isEmpty()) {
-            throw new IllegalArgumentException("Informe em que estado fica a empresa!");
-        }
         this.estado = estado;
     }
 
@@ -111,9 +93,6 @@ public class Empresa {
     }
 
     public void setCidade(String cidade) {
-        if(cidade == null || cidade.isEmpty() || cidade.isBlank()) {
-            throw new IllegalArgumentException("Informe em que cidade fica a empresa!");
-        }
         this.cidade = cidade;
     }
 
@@ -122,9 +101,6 @@ public class Empresa {
     }
 
     public void setRegional(Regional regional) {
-        if(regional == null) {
-            throw new IllegalArgumentException("Informe a Regional SENAI!");
-        }
         this.regional = regional;
     }
 
@@ -136,6 +112,18 @@ public class Empresa {
         if(trilha != null && !trilhas.contains(trilha)) {
             trilhas.add(trilha);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "\nNome: "+nome +
+                "\nCNPJ: "+cnpj +
+                "\nTipo da empresa: "+ tipo.getNome() +
+                (tipo == TipoEmpresa.FILIAL ? "\nNome da filial: "+ nomeFilial : "") +
+                "\nSegmento: "+ segmento.getNome() +
+                "\nEstado: "+estado +
+                "\nCidade: "+cidade +
+                "\nRegional: "+ regional.getNome();
     }
 
 }

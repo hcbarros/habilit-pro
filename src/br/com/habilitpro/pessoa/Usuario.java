@@ -4,9 +4,10 @@ import br.com.habilitpro.enums.Perfil;
 
 import static br.com.habilitpro.utils.Validador.*;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 
 public class Usuario extends Pessoa {
 
@@ -28,9 +29,7 @@ public class Usuario extends Pessoa {
     }
 
     public void setEmail(String email) {
-        if(!ehEmailValido(email)) {
-            throw new IllegalArgumentException("Email inválido!");
-        }
+        validarEmail(email);
         this.email = email;
     }
 
@@ -39,9 +38,7 @@ public class Usuario extends Pessoa {
     }
 
     public void setSenha(String senha) {
-        if(!ehSenhaValida(senha)) {
-            throw new IllegalArgumentException("Senha inválida!");
-        }
+        validarSenha(senha);
         this.senha = senha;
     }
 

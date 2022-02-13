@@ -1,6 +1,8 @@
 package br.com.habilitpro.enums;
 
-public enum Regional {
+import br.com.habilitpro.interfaces.AuxilioEnum;
+
+public enum Regional implements AuxilioEnum {
 
     ALTO_URUGUAI_CATARINENSE("Alto Uruguai Catarinense"),
     ALTO_VALE_DO_ITAJAI("Alto Vale do Itajaí"),
@@ -14,7 +16,7 @@ public enum Regional {
     PLANALTO_NORTE("Planalto Norte"),
     SERRA_CATARINENSE("Serra Catarinense"),
     SUDESTE("Sudeste"),
-    SUL("SUL"),
+    SUL("Sul"),
     VALE_DO_ITAJAI("Vale do Itajaí"),
     VALE_ITAJAI_MIRIM("Vale do Itajaí Mirim"),
     VALE_DO_ITAPOCU("Vale do Itapocu");

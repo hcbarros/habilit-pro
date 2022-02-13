@@ -2,6 +2,7 @@ package br.com.habilitpro;
 
 import br.com.habilitpro.enums.Satisfacao;
 
+import static br.com.habilitpro.utils.Validador.*;
 import static br.com.habilitpro.utils.Contador.contar;
 import java.time.LocalDate;
 import java.util.ArrayList;

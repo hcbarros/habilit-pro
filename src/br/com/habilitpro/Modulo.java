@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import static br.com.habilitpro.utils.Validador.*;
 
 public class Modulo {
 
@@ -22,9 +23,7 @@ public class Modulo {
     public Modulo(Trilha trilha, String nome, Status status,
                   String tarefaValidacao, String ...habilidades) {
 
-        if(trilha == null) {
-            throw new IllegalArgumentException("Informe a qual trilha esse módulo pertence!");
-        }
+        validarObjeto(trilha, "Informe a qual trilha esse módulo pertence!");
         this.trilha = trilha;
         setNome(nome);
         definirStatus(status);
@@ -43,9 +42,7 @@ public class Modulo {
     }
 
     public void setNome(String nome) {
-        if(nome == null || nome.isEmpty() || nome.isBlank()) {
-            throw new IllegalArgumentException("Informe o nome do módulo!");
-        }
+        validarString(nome, "Informe o nome do módulo!");
         this.nome = nome;
     }
 

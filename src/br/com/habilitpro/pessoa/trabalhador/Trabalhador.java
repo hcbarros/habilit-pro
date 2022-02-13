@@ -1,8 +1,10 @@
 package br.com.habilitpro.pessoa.trabalhador;
 
 import br.com.habilitpro.Empresa;
+import br.com.habilitpro.Trilha;
 import br.com.habilitpro.enums.Avaliacao;
 import br.com.habilitpro.pessoa.Pessoa;
+import static br.com.habilitpro.utils.Validador.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ public class Trabalhador extends Pessoa {
     private String funcao;
     private LocalDate dataAlteracao;
     private List<ModuloTrabalhador> modulosTrabalhador;
+    private List<Trilha> trilhas;
 
     public Trabalhador(String nome, String cpf, Empresa empresa, String setor, String funcao) {
         super(nome, cpf);
@@ -23,6 +26,7 @@ public class Trabalhador extends Pessoa {
         setSetor(setor);
         setFuncao(funcao);
         modulosTrabalhador = new ArrayList<>();
+        trilhas = new ArrayList<>();
     }
 
 
@@ -31,9 +35,7 @@ public class Trabalhador extends Pessoa {
     }
 
     public void setEmpresa(Empresa empresa) {
-        if(empresa == null) {
-            throw new IllegalArgumentException("Informe a empresa do trabalhador!");
-        }
+        validarObjeto(empresa, "Informe a empresa do trabalhador!");
         this.empresa = empresa;
     }
 
@@ -42,9 +44,7 @@ public class Trabalhador extends Pessoa {
     }
 
     public void setSetor(String setor) {
-        if(setor == null || setor.isBlank() || setor.isEmpty()) {
-            throw new IllegalArgumentException("Informe o setor da empresa!");
-        }
+        validarString(setor, "Informe o setor da empresa!");
         this.setor = setor;
     }
 
@@ -53,11 +53,13 @@ public class Trabalhador extends Pessoa {
     }
 
     public void setFuncao(String funcao) {
-        if(funcao == null || funcao.isBlank() || funcao.isEmpty()) {
-            throw new IllegalArgumentException("Informe a função do trabalhador!");
-        }
+        validarString(funcao, "Informe a função do trabalhador!");
         this.funcao = funcao;
         dataAlteracao = LocalDate.now();
+    }
+
+    public List<Trilha> getTrilhas() {
+        return trilhas;
     }
 
     public List<ModuloTrabalhador> getModulosTrabalhador() {
@@ -67,6 +69,13 @@ public class Trabalhador extends Pessoa {
     public void addModuloTrabalhador(ModuloTrabalhador moduloTrabalhador) {
         if(moduloTrabalhador != null) {
             modulosTrabalhador.add(moduloTrabalhador);
+            Trilha trilha = moduloTrabalhador.getModulo().getTrilha();
+            for(Trilha t: trilhas) {
+                if(t.getNome().equalsIgnoreCase(trilha.getNome())) {
+                    return;
+                }
+            }
+            trilhas.add(trilha);
         }
     }
 

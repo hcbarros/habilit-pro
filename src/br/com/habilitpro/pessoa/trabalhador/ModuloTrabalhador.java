@@ -2,6 +2,8 @@ package br.com.habilitpro.pessoa.trabalhador;
 
 import br.com.habilitpro.Modulo;
 import br.com.habilitpro.enums.Avaliacao;
+import static br.com.habilitpro.utils.Validador.validarObjeto;
+
 
 public class ModuloTrabalhador {
 
@@ -21,9 +23,7 @@ public class ModuloTrabalhador {
     }
 
     public void setModulo(Modulo modulo) {
-        if(modulo == null) {
-            throw new IllegalArgumentException("Informe o módulo!");
-        }
+        validarObjeto(modulo, "Informe o módulo!");
         this.modulo = modulo;
     }
 

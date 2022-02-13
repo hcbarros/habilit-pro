@@ -1,7 +1,6 @@
 package br.com.habilitpro.utils;
 
 import java.math.BigDecimal;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -32,17 +31,15 @@ public class Validador {
         return inicio ? ((dig == resp) && ehDocumentoValido(doc,false, size)) : (dig == resp);
     }
 
-    public static boolean ehEmailValido(String email) {
-        if(email != null) {
-            Pattern pattern = Pattern
-                    .compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher("    ");
-            return pattern.matcher(email).matches();
+    public static void validarEmail(String email) {
+        Pattern pattern = Pattern
+                .compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$", Pattern.CASE_INSENSITIVE);
+        if(email == null || !pattern.matcher(email).matches()) {
+            throw new IllegalArgumentException("\nEmail inválido!");
         }
-        return false;
     }
 
-    public static boolean ehSenhaValida(String senha) {
+    public static void validarSenha(String senha) {
         boolean temNumero = false;
         boolean temLetra = false;
         if(senha != null) {
@@ -54,9 +51,35 @@ public class Validador {
                     temLetra = true;
                 }
             }
-            return temLetra && temNumero;
         }
-        return false;
+        if(senha == null || !temLetra || !temNumero) {
+            throw new IllegalArgumentException(
+                    "\nA senha deve ter ao menos 1 letra, 1 número e no mínimo 8 caracteres!");
+        }
+    }
+
+    public static void validarString(String nome, String mensagem) {
+        if(nome == null || nome.isEmpty() || nome.isBlank()) {
+            throw new IllegalArgumentException(mensagem);
+        }
+    }
+
+    public static void validarObjeto(Object obj, String mensagem) {
+        if(obj == null) {
+            throw new IllegalArgumentException(mensagem);
+        }
+    }
+
+    public static void validarCnpj(String cnpj) {
+        if(cnpj == null || !ehCnpjValido(cnpj)) {
+            throw new IllegalArgumentException("\nCNPJ inválido!");
+        }
+    }
+
+    public static void validarCpf(String cpf) {
+        if(cpf == null || !ehCpfValido(cpf)) {
+            throw new IllegalArgumentException("\nCPF inválido!");
+        }
     }
 
 }
