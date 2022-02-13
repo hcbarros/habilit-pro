@@ -19,7 +19,9 @@ public enum Regional implements AuxilioEnum {
     SUL("Sul"),
     VALE_DO_ITAJAI("Vale do Itajaí"),
     VALE_ITAJAI_MIRIM("Vale do Itajaí Mirim"),
-    VALE_DO_ITAPOCU("Vale do Itapocu");
+    VALE_DO_ITAPOCU("Vale do Itapocu"),
+    OUTRO("Outro");
+
 
     private String nome;
 

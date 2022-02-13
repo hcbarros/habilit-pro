@@ -1,7 +1,7 @@
 package br.com.habilitpro.pessoa;
 
-import static br.com.habilitpro.utils.Validador.*;
-
+import static br.com.habilitpro.utils.Validador.validarString;
+import static br.com.habilitpro.utils.Formatador.formatarCPF;
 
 public abstract class Pessoa {
 
@@ -27,9 +27,6 @@ public abstract class Pessoa {
     }
 
     public void setCpf(String cpf) {
-        validarCpf(cpf);
-        cpf = cpf.replaceAll("[^\\d]", "");
-        this.cpf = cpf.substring(0,3)+"."+ cpf.substring(3,6)+"."+
-                   cpf.substring(6,9)+"-"+cpf.substring(9,11);
+        this.cpf = formatarCPF(cpf);
     }
 }

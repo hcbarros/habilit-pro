@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static br.com.habilitpro.utils.Validador.*;
+import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
 
 public class Empresa {
 
@@ -49,9 +50,7 @@ public class Empresa {
     }
 
     public void setCnpj(String cnpj) {
-        cnpj = cnpj.replaceAll("[^\\d]", "");
-        this.cnpj = cnpj.substring(0,2)+"."+ cnpj.substring(2,5)+"."+
-                cnpj.substring(5,8)+"/"+ cnpj.substring(8,12)+"-"+ cnpj.substring(12,14);
+        this.cnpj = formatarCNPJ(cnpj);
     }
 
     public TipoEmpresa getTipo() {

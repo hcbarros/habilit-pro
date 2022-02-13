@@ -18,24 +18,27 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class Local {
+public class Buscador {
 
     private static List<String> idEstados = new ArrayList<>();
 
 
     public static TreeMap<String, String> buscarEstados() {
-        return buscarLocais("3469034");
+        String url =
+                "https://raw.githubusercontent.com/hcbarros/banco/main/src/br/com/banco/utils/locals/estados.xml";
+        return buscarLocais(url, true);
     }
 
 
     public static List<String> buscarCidades(String idEstado) {
         if(!idEstados.contains(idEstado)) return null;
-        return buscarLocais(idEstado).keySet()
-                .stream().collect(Collectors.toList());
+        String url =
+                "https://raw.githubusercontent.com/hcbarros/banco/main/src/br/com/banco/utils/locals/cidades/"+idEstado+".xml";
+        return buscarLocais(url,false).keySet().stream().collect(Collectors.toList());
     }
 
 
-    private static TreeMap<String, String> buscarLocais(String geonameId) {
+    private static TreeMap<String, String> buscarLocais(String url, boolean ehEstado) {
 
         TreeMap<String, String> map = new TreeMap<>();
         System.out.print("\nAguarde...");
@@ -45,7 +48,7 @@ public class Local {
                 .build();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://www.geonames.org/children?lang=pt&geonameId="+geonameId))
+                .uri(URI.create(url))
                 .build();
 
         try {
@@ -60,17 +63,17 @@ public class Local {
             is.setCharacterStream(new StringReader(responseBody));
             Document doc = db.parse(is);
 
-            NodeList geonames = doc.getElementsByTagName("geoname");
+            NodeList geonames = doc.getElementsByTagName(ehEstado ? "estado" : "cidade");
             for (int i = 0; i < geonames.getLength(); i++) {
 
                 Element geoname = (Element) geonames.item(i);
-                Element nome = (Element) geoname.getElementsByTagName("name").item(0);
-                Element geoId = (Element) geoname.getElementsByTagName("geonameId").item(0);
-                if(geonameId.equals("3469034")) {
+                Element nome = (Element) geoname.getElementsByTagName("nome").item(0);
+                Element id = (Element) geoname.getElementsByTagName("idestado").item(0);
+                if(ehEstado) {
                     if(i == 0) idEstados.clear();
-                    idEstados.add(geoId.getTextContent());
+                    idEstados.add(id.getTextContent());
                 }
-                map.put(nome.getTextContent(), geoId.getTextContent());
+                map.put(nome.getTextContent(), id.getTextContent());
             }
         }
         catch (Exception e) {

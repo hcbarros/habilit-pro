@@ -21,10 +21,6 @@ public class Trilha {
     private String anotacoes;
 
     public Trilha(Empresa empresa, String ocupacao) {
-
-        if(empresa == null || ocupacao == null || ocupacao.isBlank() || ocupacao.isEmpty()) {
-            throw new IllegalArgumentException("Informe a ocupação e a empresa!");
-        }
         this.empresa = empresa;
         int count = contar(ocupacao, empresa);
         nome = ocupacao + empresa.getNome() + count + LocalDate.now().getYear();

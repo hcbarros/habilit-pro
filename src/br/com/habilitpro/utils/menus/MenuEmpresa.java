@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import static br.com.habilitpro.utils.Validador.*;
-import static br.com.habilitpro.utils.Local.*;
+import static br.com.habilitpro.utils.Validador.validarString;
+import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
+import static br.com.habilitpro.utils.Buscador.*;
 
 public class MenuEmpresa {
 
@@ -22,11 +23,13 @@ public class MenuEmpresa {
     public static String menu() {
 
         System.out.println("\nEscolha uma opção: \n1 - Listar empresas \n2 - Cadastrar empresa" +
-                            "\n3 - Voltar ao menu anterior \n0 - Sair");
+                            "\n3 - Editar empresa \n4 - Voltar ao menu principal \n0 - Sair");
 
         String opcao = scanner.nextLine();
         switch (opcao.hashCode()) {
-            case 48: return "0";
+            case 48:
+                System.out.println("\nAté logo! Volte sempre.");
+                return "0";
             case 49:
                 if(empresas.isEmpty()) {
                     System.out.println("\nAinda não há empresas cadastradas!");
@@ -37,7 +40,10 @@ public class MenuEmpresa {
             case 50:
                 cadastrarEmpresa();
                 break;
-            case 51: return "";
+            case 51:
+                editarEmpresa();
+                break;
+            case 52: return "";
             default:
                 System.out.println("\nOpção inválida!");
                 break;
@@ -46,11 +52,37 @@ public class MenuEmpresa {
     }
 
     private static String cadastrarEmpresa() {
-        return cadastrarEmpresa(null,null,null,null,
+        Empresa e = criarEmpresa(null,null,null,null,
                 null,null,null,null);
+        System.out.println("\nEmpresa cadastrada com sucesso!");
+        empresas.add(e);
+        return "";
     }
 
-    private static String cadastrarEmpresa(String nome, String cnpj, TipoEmpresa tipo, String nomeFilial,
+    private static String editarEmpresa() {
+        System.out.print("\nInforme o CNPJ da empresa ou '0' para voltar ao menu anterior: ");
+        String doc = scanner.nextLine();
+        if(doc.equals("0")) return "";
+        Empresa em = null;
+        try{
+            final String cnpj = formatarCNPJ(doc);
+            em = empresas.stream().filter(e -> e.getCnpj().equals(cnpj))
+                    .findFirst().orElseThrow(() -> new IllegalArgumentException("\nEmpresa não encontrada!"));
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return editarEmpresa();
+        }
+        int index = empresas.indexOf(em);
+        Empresa emp = criarEmpresa(em.getNome(), em.getCnpj(),null,null,
+                null,null,null,null);
+
+        empresas.set(index, emp);
+        System.out.println("\nEmpresa editada com sucesso!");
+        return "";
+    }
+
+    private static Empresa criarEmpresa(String nome, String cnpj, TipoEmpresa tipo, String nomeFilial,
                                            Segmento segmento, String[] estado, String cidade, Regional regional) {
 
         try {
@@ -62,63 +94,60 @@ public class MenuEmpresa {
                     System.out.println("Já existe uma empresa cadastrada com esse nome!");
                 }
                 validarString(n, "");
-                return cadastrarEmpresa(c == 0 ? n : null,null,null,null,
+                return criarEmpresa(c == 0 ? n : null,null,null,null,
                                 null,null,null,null);
             }
             else if(cnpj == null) {
                 System.out.print("\nInforme o CNPJ: ");
-                final String doc = scanner.nextLine();
+                String documento = scanner.nextLine();
+                final String doc = formatarCNPJ(documento);
                 long c = empresas.stream().filter(e -> e.getCnpj().equalsIgnoreCase(doc)).count();
                 if(c > 0) {
                     System.out.println("Já existe uma empresa cadastrada com esse CNPJ!");
                 }
-                validarCnpj(doc);
-                return cadastrarEmpresa(nome, c == 0 ? doc : null, null,null,
+                return criarEmpresa(nome, c == 0 ? doc : null, null,null,
                                 null,null,null,null);
             }
             else if(tipo == null) {
                 tipo = (TipoEmpresa) getEnum(TipoEmpresa.values());
-                return cadastrarEmpresa(nome, cnpj, tipo,null,null,
+                return criarEmpresa(nome, cnpj, tipo,null,null,
                                         null,null,null);
             }
             else if(nomeFilial == null && tipo == TipoEmpresa.FILIAL) {
                 System.out.print("\nInforme o nome da filial: ");
                 String filial = scanner.nextLine();
                 validarString(filial,"");
-                return cadastrarEmpresa(nome, cnpj, tipo, filial,null,
+                return criarEmpresa(nome, cnpj, tipo, filial,null,
                                         null,null,null);
             }
             else if(segmento == null) {
                 segmento = (Segmento) getEnum(Segmento.values());
-                return cadastrarEmpresa(nome, cnpj, tipo, nomeFilial, segmento,
+                return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento,
                                         null,null,null);
             }
             else if(estado == null) {
                 estado = getLocal(null);
-                return cadastrarEmpresa(nome,cnpj,tipo,nomeFilial,segmento, estado,null,null);
+                return criarEmpresa(nome,cnpj,tipo,nomeFilial,segmento, estado,null,null);
             }
             else if(cidade == null) {
                 String[] city = getLocal(estado[1]);
                 cidade = city == null ? null : city[0];
-                return cadastrarEmpresa(nome,cnpj,tipo,nomeFilial,segmento,estado, cidade,null);
+                return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade,null);
             }
             else if(regional == null) {
                 regional = (Regional) getEnum(Regional.values());
-                return cadastrarEmpresa(nome,cnpj,tipo,nomeFilial,segmento,estado,cidade,regional);
+                return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
             }
         }
         catch (IllegalArgumentException e) {
             System.out.print(e.getMessage());
-            return cadastrarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
+            return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
         }
         catch (IndexOutOfBoundsException e) {
             System.out.print("\nOpção inválida!");
-            return cadastrarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
+            return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
         }
-        Empresa e = new Empresa(nome,cnpj,tipo,nomeFilial,segmento,estado[0],cidade,regional);
-        empresas.add(e);
-        System.out.println("\nEmpresa cadastrada com sucesso!");
-        return "";
+        return new Empresa(nome,cnpj,tipo,nomeFilial,segmento,estado[0],cidade,regional);
     }
 
     public static AuxilioEnum getEnum(AuxilioEnum[] array) {
@@ -160,4 +189,7 @@ public class MenuEmpresa {
         return null;
     }
 
+    public static List<Empresa> getEmpresas() {
+        return empresas;
+    }
 }
