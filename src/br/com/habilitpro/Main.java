@@ -1,6 +1,6 @@
 package br.com.habilitpro;
 
-import br.com.habilitpro.utils.menus.MenuEmpresa;
+import br.com.habilitpro.utils.menus.MenuPrincipal;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class Main {
 //        String valor = MenuEmpresa.getLocal("3392268");
 //        System.out.println(valor);
 
-        MenuEmpresa.menu();
+        MenuPrincipal.menu();
 
     }
 

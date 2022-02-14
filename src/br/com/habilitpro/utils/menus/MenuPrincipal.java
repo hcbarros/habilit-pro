@@ -18,6 +18,10 @@ public class MenuPrincipal {
                 return "";
             case 49:
                 opcao = MenuEmpresa.menu();
+                break;
+            case 50:
+                opcao = MenuTrilha.menu();
+                break;
             default:
                 System.out.println("\nOpção inválida!");
                 break;

@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import static br.com.habilitpro.utils.Validador.*;
+import static br.com.habilitpro.utils.Formatador.formatarData;
+
 
 public class Modulo {
 
@@ -99,4 +101,19 @@ public class Modulo {
         return inicioAvaliacao;
     }
 
+    @Override
+    public String toString() {
+        String textoHabilidades = habilidades.isEmpty() ? "Não há habilidades cadastradas!" : "";
+        for(String h: habilidades) {
+            textoHabilidades += "\n\t- "+h;
+        }
+        return "\nNome: "+nome +
+                "\nTarefa avaliação: "+tarefaValidacao +
+                (status == null ? "" : "\nStatus: "+ status.getNome()) +
+                "\nPrazo limite: "+prazo_limite +
+                "\nInício da avaliação: "+ formatarData(inicioAvaliacao) +
+                "\nNome da trilha: "+trilha.getNome() +
+                "\nOcupação da trilha: "+trilha.getOcupacao() +
+                "Habilidades: "+ textoHabilidades;
+    }
 }

@@ -1,5 +1,8 @@
 package br.com.habilitpro.utils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static br.com.habilitpro.utils.Validador.validarCnpj;
 import static br.com.habilitpro.utils.Validador.validarCpf;
 
@@ -17,6 +20,11 @@ public class Formatador {
         cnpj = cnpj.replaceAll("[^\\d]", "");
         return cnpj.substring(0,2)+"."+ cnpj.substring(2,5)+"."+
                cnpj.substring(5,8)+"/"+ cnpj.substring(8,12)+"-"+ cnpj.substring(12,14);
+    }
+
+    public static String formatarData(LocalDate data) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return data.format(formatter);
     }
 
 

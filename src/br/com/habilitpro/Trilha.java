@@ -25,6 +25,7 @@ public class Trilha {
         int count = contar(ocupacao, empresa);
         nome = ocupacao + empresa.getNome() + count + LocalDate.now().getYear();
         apelido = ocupacao + count;
+        this.ocupacao = ocupacao;
         modulos = new ArrayList<>();
     }
 
@@ -73,4 +74,20 @@ public class Trilha {
         this.anotacoes = anotacoes;
     }
 
+    @Override
+    public String toString() {
+        String textoModulos = modulos.isEmpty() ? "Não há módulos cadastrados!" : "";
+        for(Modulo m: modulos) {
+            textoModulos += "\t\n- Nome: "+ m.getNome() +
+                            "\t\n- Status: "+m.getStatus().getNome();
+        }
+        return "\nNome da empresa: "+empresa.getNome() +
+                "\nCNPJ da empresa: "+empresa.getCnpj() +
+                "\nNome da trilha: "+nome +
+                "\nApelido da trilha: "+apelido +
+                "\nOcupação: "+ocupacao +
+                (satisfacao == null ? "" : "\nNível de satisfação: "+ satisfacao.getNivel()) +
+                "\nAnotações: "+ anotacoes +
+                "\nModulos: "+ textoModulos;
+    }
 }
