@@ -6,10 +6,7 @@ import br.com.habilitpro.enums.Segmento;
 import br.com.habilitpro.enums.TipoEmpresa;
 import br.com.habilitpro.interfaces.AuxilioEnum;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
@@ -190,6 +187,7 @@ public class MenuEmpresa {
     }
 
     public static List<Empresa> getEmpresas() {
-        return empresas;
+        return Collections.unmodifiableList(empresas);
     }
+
 }

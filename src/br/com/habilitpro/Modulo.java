@@ -29,6 +29,7 @@ public class Modulo {
         this.trilha = trilha;
         setNome(nome);
         definirStatus(status);
+        this.tarefaValidacao = tarefaValidacao;
         this.habilidades = new ArrayList<>();
         addHabilidades(habilidades);
         this.trilha.addModulo(this);
@@ -111,9 +112,10 @@ public class Modulo {
                 "\nTarefa avaliação: "+tarefaValidacao +
                 (status == null ? "" : "\nStatus: "+ status.getNome()) +
                 "\nPrazo limite: "+prazo_limite +
-                "\nInício da avaliação: "+ formatarData(inicioAvaliacao) +
+                "\nInício da avaliação: "+ (inicioAvaliacao == null ?
+                                    "ainda não iniciou" : formatarData(inicioAvaliacao)) +
                 "\nNome da trilha: "+trilha.getNome() +
                 "\nOcupação da trilha: "+trilha.getOcupacao() +
-                "Habilidades: "+ textoHabilidades;
+                "\nHabilidades: "+ textoHabilidades;
     }
 }

@@ -1,6 +1,7 @@
 package br.com.habilitpro.utils.menus;
 
 import br.com.habilitpro.Empresa;
+import br.com.habilitpro.Modulo;
 import br.com.habilitpro.Trilha;
 import br.com.habilitpro.enums.Satisfacao;
 
@@ -24,7 +25,7 @@ public class MenuTrilha {
 
         System.out.println("\nEscolha uma opção: \n1 - Listar trilhas \n2 - Cadastrar trilha" +
                         "\n3 - Definir nível de satisfação de uma trilha " +
-                        "\n4 - Escrever anotação em uma trilha \n0 - Sair");
+                        "\n4 - Escrever anotação em uma trilha \n5 - Voltar ao menu principal \n0 - Sair");
 
         String opcao = scanner.nextLine();
         switch (opcao.hashCode()) {
@@ -48,6 +49,7 @@ public class MenuTrilha {
             case 52:
                 escreverAnotacao(null);
                 break;
+            case 53: return "";
             default:
                 System.out.println("\nOpção inválida!");
                 break;
@@ -143,12 +145,12 @@ public class MenuTrilha {
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("\nTrilha não encontrada!"));
     }
 
-    public static int indiceTrilha(Trilha trilha) {
-        return trilhas.indexOf(trilha);
-    }
-
-    public static void setTrilha(int index, Trilha trilha) {
-        trilhas.set(index, trilha);
-    }
+    public static void alterarTrilha(Trilha trilha) {
+        for(int i = 0; i < trilhas.size(); i++) {
+            if(trilha.getNome().equals(trilhas.get(i).getNome())) {
+                trilhas.set(i, trilha);
+            }
+        }
+     }
 
 }

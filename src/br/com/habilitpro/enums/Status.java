@@ -18,4 +18,12 @@ public enum Status implements AuxilioEnum {
         return nome;
     }
 
+    public static Status getStatus(String nome) {
+        for(Status s: values()) {
+            if(nome.equals(s.nome)) {
+                return s;
+            }
+        }
+        return null;
+    }
 }
