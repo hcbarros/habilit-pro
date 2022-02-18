@@ -4,11 +4,11 @@ import br.com.habilitpro.interfaces.AuxilioEnum;
 
 public enum Satisfacao implements AuxilioEnum {
 
-    NIVEL_1(1, "Nível 1"),
-    NIVEL_2(2, "Nível 2"),
-    NIVEL_3(3, "Nível 3"),
-    NIVEL_4(4, "Nível 4"),
-    NIVEL_5(5, "Nível 5");
+    NIVEL_1(1, "Nível_1"),
+    NIVEL_2(2, "Nível_2"),
+    NIVEL_3(3, "Nível_3"),
+    NIVEL_4(4, "Nível_4"),
+    NIVEL_5(5, "Nível_5");
 
     private int nivel;
     private String nome;

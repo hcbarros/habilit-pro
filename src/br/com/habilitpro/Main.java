@@ -3,6 +3,9 @@ package br.com.habilitpro;
 import br.com.habilitpro.utils.menus.MenuPrincipal;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
@@ -17,7 +20,6 @@ public class Main {
 //        System.out.println(valor);
 
         MenuPrincipal.menu();
-
     }
 
 }

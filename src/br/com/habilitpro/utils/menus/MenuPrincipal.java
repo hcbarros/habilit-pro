@@ -25,6 +25,9 @@ public class MenuPrincipal {
             case 51:
                 opcao = MenuModulo.menu();
                 break;
+            case 52:
+                opcao = MenuTrabalhador.menu();
+                break;
             default:
                 System.out.println("\nOpção inválida!");
                 break;

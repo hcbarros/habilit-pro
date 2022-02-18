@@ -1,5 +1,6 @@
 package br.com.habilitpro.pessoa.trabalhador;
 
+import br.com.habilitpro.Empresa;
 import br.com.habilitpro.Modulo;
 import br.com.habilitpro.enums.Avaliacao;
 import static br.com.habilitpro.utils.Validador.validarObjeto;
@@ -10,11 +11,17 @@ public class ModuloTrabalhador {
     private Modulo modulo;
     private Avaliacao avaliacao;
     private String anotacao;
+    private Empresa empresa;
+    private String funcao;
+    private String setor;
 
-    public ModuloTrabalhador(Modulo modulo, Avaliacao avaliacao, String anotacao) {
+    public ModuloTrabalhador(Modulo modulo, Avaliacao avaliacao, String anotacao, Trabalhador t) {
         setModulo(modulo);
         this.avaliacao = avaliacao;
         this.anotacao = anotacao;
+        this.empresa = t.getEmpresa();
+        this.funcao = t.getFuncao();
+        this.setor = t.getSetor();
     }
 
 
@@ -43,4 +50,26 @@ public class ModuloTrabalhador {
         this.anotacao = anotacao;
     }
 
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public String getSetor() {
+        return setor;
+    }
+
+    @Override
+    public String toString() {
+
+        return "\nMódulo: "+ modulo.getNome() +
+                (avaliacao == null ? "" : "\nAvaliação: "+avaliacao.getNome()) +
+                ((anotacao == null || anotacao.isEmpty()) ? "" : "\nAnotação: "+anotacao) +
+                "\nEmpresa: "+empresa.getNome() +
+                "\nFunção: "+funcao +
+                "\nSetor: "+setor;
+    }
 }

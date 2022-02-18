@@ -5,6 +5,7 @@ import br.com.habilitpro.Trilha;
 import br.com.habilitpro.enums.Status;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -54,13 +55,6 @@ public class MenuModulo {
                 break;
         }
         return opcao.equals("0") ? "" : menu();
-    }
-
-    private static Modulo getModulo() {
-        System.out.print("\nInforme o nome do módulo: ");
-        final String nome = scanner.nextLine();
-        return modulos.stream().filter(t -> t.getNome().equalsIgnoreCase(nome))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("\nMódulo não encontrado!"));
     }
 
     private static String definirPrazo(Modulo modulo) {
@@ -121,14 +115,16 @@ public class MenuModulo {
         try {
             if (opt.equalsIgnoreCase("S")) {
                 Status s = (Status) getEnum(Status.values());
-                return s == null ? "" : s.getNome();
+                if(s != null) return s.getNome();
             } else if (opt.equalsIgnoreCase("N")) {
                 return "";
             }
-            System.out.println("\nOpção inválida!");
+            else {
+                System.out.println("\nOpção inválida!");
+            }
             return definirStatus();
         }
-        catch (IllegalArgumentException |  e) {
+        catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return definirStatus();
         }
@@ -196,6 +192,17 @@ public class MenuModulo {
             return cadastrarModulo(trilha,nome,tarefa,status);
         }
         return "";
+    }
+
+    public static Modulo getModulo() {
+        System.out.print("\nInforme o nome do módulo: ");
+        final String nome = scanner.nextLine();
+        return modulos.stream().filter(t -> t.getNome().equalsIgnoreCase(nome))
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("\nMódulo não encontrado!"));
+    }
+
+    public static List<Modulo> getModulos() {
+        return Collections.unmodifiableList(modulos);
     }
 
 }

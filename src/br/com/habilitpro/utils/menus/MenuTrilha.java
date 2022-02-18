@@ -7,6 +7,7 @@ import br.com.habilitpro.enums.Satisfacao;
 
 import static br.com.habilitpro.utils.Validador.validarObjeto;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEmpresas;
+import static br.com.habilitpro.utils.menus.MenuEmpresa.getEmpresa;
 import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
 import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEnum;
@@ -112,12 +113,8 @@ public class MenuTrilha {
                     System.out.println("\nPrimeiramente, cadastre alguma empresa!");
                     return "0";
                 }
-                System.out.print("\nInforme o cnpj da empresa em que será criada a trilha: ");
-                String cnpj = scanner.nextLine();
-                String doc = formatarCNPJ(cnpj);
-                Empresa em = empresas.stream().filter(e -> e.getCnpj().equals(doc))
-                        .findFirst().orElseThrow(() -> new IllegalArgumentException("\nEmpresa não encontrada!"));
-                return cadastrarTrilha(em, ocupacao);
+                empresa = getEmpresa();
+                return cadastrarTrilha(empresa, ocupacao);
             } else if (ocupacao == null) {
                 System.out.print("\nInforme o nome da ocupação para essa trilha: ");
                 ocupacao = scanner.nextLine();

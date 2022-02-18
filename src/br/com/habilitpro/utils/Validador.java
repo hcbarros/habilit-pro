@@ -58,10 +58,11 @@ public class Validador {
         }
     }
 
-    public static void validarString(String nome, String mensagem) {
+    public static String validarString(String nome, String mensagem) {
         if(nome == null || nome.isEmpty() || nome.isBlank()) {
             throw new IllegalArgumentException(mensagem);
         }
+        return nome;
     }
 
     public static void validarObjeto(Object obj, String mensagem) {

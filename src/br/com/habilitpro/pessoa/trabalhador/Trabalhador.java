@@ -58,8 +58,12 @@ public class Trabalhador extends Pessoa {
         dataAlteracao = LocalDate.now();
     }
 
+    public LocalDate getDataAlteracao() {
+        return dataAlteracao;
+    }
+
     public List<Trilha> getTrilhas() {
-        return trilhas;
+        return Collections.unmodifiableList(trilhas);
     }
 
     public List<ModuloTrabalhador> getModulosTrabalhador() {

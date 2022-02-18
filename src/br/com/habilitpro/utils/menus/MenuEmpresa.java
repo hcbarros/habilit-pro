@@ -190,4 +190,12 @@ public class MenuEmpresa {
         return Collections.unmodifiableList(empresas);
     }
 
+    public static Empresa getEmpresa() {
+        System.out.print("\nInforme o cnpj da empresa: ");
+        String cnpj = scanner.nextLine();
+        String doc = formatarCNPJ(cnpj);
+        return empresas.stream().filter(e -> e.getCnpj().equals(doc))
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("\nEmpresa não encontrada!"));
+    }
+
 }
