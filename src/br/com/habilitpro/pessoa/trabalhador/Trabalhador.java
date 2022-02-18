@@ -5,6 +5,7 @@ import br.com.habilitpro.Trilha;
 import br.com.habilitpro.enums.Avaliacao;
 import br.com.habilitpro.pessoa.Pessoa;
 import static br.com.habilitpro.utils.Validador.*;
+import static br.com.habilitpro.utils.Formatador.formatarData;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -54,8 +55,10 @@ public class Trabalhador extends Pessoa {
 
     public void setFuncao(String funcao) {
         validarString(funcao, "Informe a função do trabalhador!");
+        if(this.funcao == null || !this.funcao.equalsIgnoreCase(funcao)) {
+            dataAlteracao = LocalDate.now();
+        }
         this.funcao = funcao;
-        dataAlteracao = LocalDate.now();
     }
 
     public LocalDate getDataAlteracao() {
@@ -92,6 +95,16 @@ public class Trabalhador extends Pessoa {
         mt.setAnotacao(anotacao);
         mt.setAvaliacao(avaliacao);
         modulosTrabalhador.set(index, mt);
+    }
+
+    @Override
+    public String toString() {
+        return "\nNome: "+getNome() +
+                "\nCPF: "+getCpf() +
+                "\nEmpresa: "+empresa.getNome() +
+                "\nFunção: "+ funcao +
+                "\nInício da função atual: "+formatarData(dataAlteracao) +
+                "";
     }
 
 }

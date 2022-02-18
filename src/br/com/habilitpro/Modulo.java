@@ -60,9 +60,12 @@ public class Modulo {
                 this.status = Status.FINALIZADO;
             }
         }
-        if(this.status != Status.FINALIZADO) {
+        if(status != null) {
             if(status == Status.EM_FASE_AVALIACAO) {
                 inicioAvaliacao = LocalDate.now();
+            }
+            else if(status == Status.EM_ANDAMENTO) {
+                inicioAvaliacao = null;
             }
             this.status = status;
         }
