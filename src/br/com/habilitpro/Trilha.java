@@ -87,7 +87,7 @@ public class Trilha {
                 "\nApelido da trilha: "+apelido +
                 "\nOcupação: "+ocupacao +
                 (satisfacao == null ? "" : "\nNível de satisfação: "+ satisfacao.getNivel()) +
-                "\nAnotações: "+ anotacoes +
+                (anotacoes == null ? "" : "\nAnotações: "+ anotacoes) +
                 "\nModulos: "+ textoModulos;
     }
 }

@@ -136,7 +136,7 @@ public class MenuTrilha {
     }
 
     public static Trilha getTrilha() {
-        System.out.print("\nInforme o nome da trilha a ser editada: ");
+        System.out.print("\nInforme o nome da trilha: ");
         final String nome = scanner.nextLine();
         return trilhas.stream().filter(t -> t.getNome().equalsIgnoreCase(nome))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("\nTrilha não encontrada!"));

@@ -27,7 +27,7 @@ public class MenuTrabalhador {
         System.out.println("\nEscolha uma opção: \n1 - Listar trabalhadores \n2 - Cadastrar trabalhador" +
                 "\n3 - Editar trabalhador \n4 - Associar módulo a um trabalhador " +
                 "\n5 - Editar avaliação de módulo associado \n6 - Mudar de empresa " +
-                "\n7 - Listar módulos associados \n8 - Voltar ao menu principal \n0 - Sair");
+                "\n7 - Listar módulos associados a um trabalhador \n8 - Voltar ao menu principal \n0 - Sair");
 
         String opcao = scanner.nextLine();
         switch (opcao.hashCode()) {
@@ -58,7 +58,7 @@ public class MenuTrabalhador {
                 opcao = mudarDeEmpresa(null);
                 break;
             case 55:
-                imprimir();
+                opcao = listarModulosTrabalhador(null);
                 break;
             case 56: return "";
             default:
@@ -68,10 +68,22 @@ public class MenuTrabalhador {
         return opcao.equals("0") ? "" : menu();
     }
 
-    private static void imprimir() {
-        trabalhadores.forEach(t -> {
-            t.getModulosTrabalhador().forEach(System.out::println);
-        });
+    private static String listarModulosTrabalhador(Trabalhador trabalhador) {
+        try {
+            if(trabalhador == null) {
+                trabalhador = getTrabalhador();
+                return trabalhador == null ? "" : listarModulosTrabalhador(trabalhador);
+            }
+            if(trabalhador.getModulosTrabalhador().isEmpty()) {
+                System.out.println("\nNão há módulos associados a esse trabalhador!");
+            }
+            trabalhador.getModulosTrabalhador().forEach(System.out::println);
+            return "";
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return listarModulosTrabalhador(trabalhador);
+        }
     }
 
     private static Trabalhador getTrabalhador() {
@@ -161,10 +173,16 @@ public class MenuTrabalhador {
                 }
                 modulo = getModulo();
                 String cnpj = modulo.getTrilha().getEmpresa().getCnpj();
-                if(trabalhador != null && (trabalhador.getEmpresa().getCnpj() != cnpj)) {
-                    System.out.println("\nEsse módulo pertence a empresa "+cnpj + " e "+
-                            trabalhador.getNome() + " pertence a "+trabalhador.getEmpresa().getCnpj());
-                    return null;
+                if(trabalhador != null) {
+                    if(trabalhador.getEmpresa().getCnpj() != cnpj){
+                        System.out.println("\nEsse módulo pertence a empresa " + cnpj + " e " +
+                                trabalhador.getNome() + " pertence a " + trabalhador.getEmpresa().getCnpj());
+                        return null;
+                    }
+                    if(trabalhador.possuiModulo(modulo)) {
+                        System.out.println("\nO módulo "+modulo.getNome() + " já está associado a esse trabalhador!");
+                        return null;
+                    }
                 }
                 return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao);
             }
@@ -175,8 +193,8 @@ public class MenuTrabalhador {
                 }
                 trabalhador = getTrabalhador();
                 if(trabalhador == null) return null;
-                if(!trabalhador.getModulosTrabalhador().contains(modulo)) {
-                    System.out.println("\nO módulo" + modulo.getNome() +" não está associado a esse trabalhador!");
+                if(!trabalhador.possuiModulo(modulo)) {
+                    System.out.println("\nO módulo " + modulo.getNome() +" não está associado a esse trabalhador!");
                     return null;
                 }
                 return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao);
@@ -220,7 +238,10 @@ public class MenuTrabalhador {
                                                 null,null,null);
              if(tr == null) return "";
              int index = trabalhadores.indexOf(trabalhador);
-             trabalhadores.set(index, tr);
+             trabalhador.setNome(tr.getNome());
+             trabalhador.setFuncao(tr.getFuncao());
+             trabalhador.setSetor(tr.getSetor());
+             trabalhadores.set(index, trabalhador);
              System.out.println("\nO trababalhador "+trabalhador.getNome() +" foi editado com sucesso!");
              return "";
          }
@@ -290,7 +311,7 @@ public class MenuTrabalhador {
     }
 
     private static boolean opcaoBooleana(String texto) {
-        System.out.println(texto);
+        System.out.print(texto);
         String opt = scanner.nextLine();
         if(opt.equalsIgnoreCase("S")) {
             return true;

@@ -68,8 +68,8 @@ public class ModuloTrabalhador {
         return "\nMódulo: "+ modulo.getNome() +
                 (avaliacao == null ? "" : "\nAvaliação: "+avaliacao.getNome()) +
                 ((anotacao == null || anotacao.isEmpty()) ? "" : "\nAnotação: "+anotacao) +
-                "\nEmpresa: "+empresa.getNome() +
-                "\nFunção: "+funcao +
-                "\nSetor: "+setor;
+                "\nEmpresa que oferece o módulo: "+empresa.getNome() +
+                "\nFunção exercida durante o múdulo: "+funcao +
+                "\nSetor que contém o trabalhador: "+setor;
     }
 }

@@ -1,6 +1,7 @@
 package br.com.habilitpro.pessoa.trabalhador;
 
 import br.com.habilitpro.Empresa;
+import br.com.habilitpro.Modulo;
 import br.com.habilitpro.Trilha;
 import br.com.habilitpro.enums.Avaliacao;
 import br.com.habilitpro.pessoa.Pessoa;
@@ -86,6 +87,12 @@ public class Trabalhador extends Pessoa {
         }
     }
 
+    public boolean possuiModulo(Modulo modulo) {
+        return modulosTrabalhador.stream()
+                .anyMatch(m -> m.getModulo().getNome().equalsIgnoreCase(modulo.getNome())
+                && m.getModulo().getTrilha().getNome().equalsIgnoreCase(modulo.getTrilha().getNome()));
+    }
+
     public void setModuloTrabalhador(String nome, Avaliacao avaliacao, String anotacao) {
 
         ModuloTrabalhador mt = modulosTrabalhador.stream()
@@ -101,10 +108,10 @@ public class Trabalhador extends Pessoa {
     public String toString() {
         return "\nNome: "+getNome() +
                 "\nCPF: "+getCpf() +
-                "\nEmpresa: "+empresa.getNome() +
-                "\nFunção: "+ funcao +
+                "\nEmpresa atual: "+empresa.getNome() +
+                "\nFunção atual: "+ funcao +
                 "\nInício da função atual: "+formatarData(dataAlteracao) +
-                "";
+                "\nSetor da empresa: "+setor;
     }
 
 }

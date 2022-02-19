@@ -29,8 +29,7 @@ public class Usuario extends Pessoa {
     }
 
     public void setEmail(String email) {
-        validarEmail(email);
-        this.email = email;
+        this.email = validarEmail(email);
     }
 
     public String getSenha() {
@@ -38,8 +37,7 @@ public class Usuario extends Pessoa {
     }
 
     public void setSenha(String senha) {
-        validarSenha(senha);
-        this.senha = senha;
+        this.senha = validarSenha(senha);
     }
 
     public List<Perfil> getPerfis() {

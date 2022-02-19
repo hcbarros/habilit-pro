@@ -168,8 +168,13 @@ public class MenuModulo {
             }
             else if(nome == null) {
                 System.out.print("\nInforme o nome do módulo: ");
-                String n = scanner.nextLine();
+                final String n = scanner.nextLine();
                 validarString(n,"");
+                boolean contem = trilha.getModulos().stream().anyMatch(m -> m.getNome().equalsIgnoreCase(n));
+                if(contem) {
+                    System.out.println("\nA trilha "+trilha.getNome() +" já possui um módulo com esse nome!");
+                    return cadastrarModulo(trilha,null, tarefa, status);
+                }
                 return cadastrarModulo(trilha, n, tarefa, status);
             }
             else if(tarefa == null) {
@@ -195,9 +200,10 @@ public class MenuModulo {
     }
 
     public static Modulo getModulo() {
+        Trilha trilha = getTrilha();
         System.out.print("\nInforme o nome do módulo: ");
         final String nome = scanner.nextLine();
-        return modulos.stream().filter(t -> t.getNome().equalsIgnoreCase(nome))
+        return trilha.getModulos().stream().filter(t -> t.getNome().equalsIgnoreCase(nome))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("\nMódulo não encontrado!"));
     }
 

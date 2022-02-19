@@ -31,15 +31,16 @@ public class Validador {
         return inicio ? ((dig == resp) && ehDocumentoValido(doc,false, size)) : (dig == resp);
     }
 
-    public static void validarEmail(String email) {
+    public static String validarEmail(String email) {
         Pattern pattern = Pattern
                 .compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$", Pattern.CASE_INSENSITIVE);
         if(email == null || !pattern.matcher(email).matches()) {
             throw new IllegalArgumentException("\nEmail inválido!");
         }
+        return email;
     }
 
-    public static void validarSenha(String senha) {
+    public static String validarSenha(String senha) {
         boolean temNumero = false;
         boolean temLetra = false;
         if(senha != null) {
@@ -52,10 +53,11 @@ public class Validador {
                 }
             }
         }
-        if(senha == null || !temLetra || !temNumero) {
+        if(senha == null || senha.length() < 8 || !temLetra || !temNumero) {
             throw new IllegalArgumentException(
                     "\nA senha deve ter ao menos 1 letra, 1 número e no mínimo 8 caracteres!");
         }
+        return senha;
     }
 
     public static String validarString(String nome, String mensagem) {
