@@ -29,7 +29,7 @@ public class Modulo {
         this.trilha = trilha;
         setNome(nome);
         definirStatus(status);
-        this.tarefaValidacao = tarefaValidacao;
+        setTarefaValidacao(tarefaValidacao);
         this.habilidades = new ArrayList<>();
         addHabilidades(habilidades);
         this.trilha.addModulo(this);
@@ -76,7 +76,9 @@ public class Modulo {
     }
 
     public void setTarefaValidacao(String tarefaValidacao) {
-        this.tarefaValidacao = tarefaValidacao;
+        if(tarefaValidacao != null) {
+            this.tarefaValidacao = tarefaValidacao;
+        }
     }
 
     public List<String> getHabilidades() {
@@ -112,7 +114,8 @@ public class Modulo {
             textoHabilidades += "\n\t- "+h;
         }
         return "\nNome: "+nome +
-                "\nTarefa avaliação: "+tarefaValidacao +
+                ((tarefaValidacao == null || tarefaValidacao.isEmpty() || tarefaValidacao.isBlank()) ?
+                        "" : "\nTarefa_validação: "+tarefaValidacao) +
                 (status == null ? "" : "\nStatus: "+ status.getNome()) +
                 "\nPrazo limite: "+prazo_limite +
                 "\nInício da avaliação: "+ (inicioAvaliacao == null ?

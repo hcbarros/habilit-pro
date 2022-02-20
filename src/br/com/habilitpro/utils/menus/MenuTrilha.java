@@ -6,11 +6,11 @@ import br.com.habilitpro.Trilha;
 import br.com.habilitpro.enums.Satisfacao;
 
 import static br.com.habilitpro.utils.Validador.validarObjeto;
+import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEmpresas;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEmpresa;
-import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
-import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEnum;
+import static br.com.habilitpro.utils.menus.MenuTrabalhador.obterString;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,9 +92,7 @@ public class MenuTrilha {
                 return escreverAnotacao(trilha);
             }
             int index = trilhas.indexOf(trilha);
-            System.out.print("\nEscreva alguma anotação: ");
-            String anot = scanner.nextLine();
-            validarString(anot, "");
+            String anot = obterString("\nEscreva alguma anotação: ");
             trilha.setAnotacoes(anot);
             trilhas.set(index, trilha);
         }
@@ -116,9 +114,7 @@ public class MenuTrilha {
                 empresa = getEmpresa();
                 return cadastrarTrilha(empresa, ocupacao);
             } else if (ocupacao == null) {
-                System.out.print("\nInforme o nome da ocupação para essa trilha: ");
-                ocupacao = scanner.nextLine();
-                validarString(ocupacao,"");
+                ocupacao = obterString("\nInforme o nome da ocupação para essa trilha: ");
                 trilhas.add(new Trilha(empresa, ocupacao));
                 System.out.println("\nTrilha cadastrada com sucesso!");
                 return "";
@@ -136,16 +132,17 @@ public class MenuTrilha {
     }
 
     public static Trilha getTrilha() {
-        System.out.print("\nInforme o nome da trilha: ");
-        final String nome = scanner.nextLine();
+        final String nome = obterString("\nInforme o nome da trilha: ");
         return trilhas.stream().filter(t -> t.getNome().equalsIgnoreCase(nome))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("\nTrilha não encontrada!"));
     }
 
-    public static void alterarTrilha(Trilha trilha) {
+    public static void alterarTrilha(Modulo modulo) {
         for(int i = 0; i < trilhas.size(); i++) {
-            if(trilha.getNome().equals(trilhas.get(i).getNome())) {
-                trilhas.set(i, trilha);
+            if(modulo.getTrilha().getNome().equals(trilhas.get(i).getNome())) {
+                Trilha t = trilhas.get(i);
+                t.addModulo(modulo);
+                trilhas.set(i, t);
             }
         }
      }

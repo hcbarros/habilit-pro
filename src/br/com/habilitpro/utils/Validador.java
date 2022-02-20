@@ -1,7 +1,6 @@
 package br.com.habilitpro.utils;
 
 import java.math.BigDecimal;
-import java.util.regex.Pattern;
 
 
 public class Validador {
@@ -32,17 +31,14 @@ public class Validador {
     }
 
     public static String validarEmail(String email) {
-        Pattern pattern = Pattern
-                .compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$", Pattern.CASE_INSENSITIVE);
-        if(email == null || !pattern.matcher(email).matches()) {
+        if(email == null || !email.matches("^[\\w\\.-]+@([\\w\\-]+\\.)+[a-zA-Z]{2,4}$")) {
             throw new IllegalArgumentException("\nEmail inválido!");
         }
         return email;
     }
 
     public static String validarSenha(String senha) {
-        Pattern pattern = Pattern.compile("(?=.*\\d)(?=.*[a-zA-Z]).{8,}");
-        if(senha == null || !pattern.matcher(senha).matches()) {
+        if(senha == null || !senha.matches("(?=.*\\d)(?=.*[a-zA-Z]).{8,}")) {
             throw new IllegalArgumentException(
                     "\nA senha deve ter ao menos 1 letra, 1 número e no mínimo 8 caracteres!");
         }

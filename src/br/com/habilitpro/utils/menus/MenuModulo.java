@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEnum;
-import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.menus.MenuTrilha.*;
+import static br.com.habilitpro.utils.menus.MenuTrabalhador.obterString;
+import static br.com.habilitpro.utils.menus.MenuTrabalhador.opcaoBooleana;
 
 public class MenuModulo {
 
@@ -21,12 +22,11 @@ public class MenuModulo {
     public static String menu() {
 
         System.out.println("\nEscolha uma opção: \n1 - Listar módulos \n2 - Cadastrar módulo" +
-                "\n3 - Definir status \n4 - Definir prazo de avaliação de módulo " +
-                "\n5 - Adicionar habilidade \n6 - Voltar ao menu principal \n0 - Sair");
+                "\n3 - Editar módulo \n4 - Definir prazo de avaliação de módulo " +
+                "\n5 - Voltar ao menu principal \n0 - Sair");
 
         String opcao = scanner.nextLine();
         switch (opcao.hashCode()) {
-
             case 48:
                 System.out.println("\nAté logo! Volte sempre.");
                 return "0";
@@ -38,18 +38,15 @@ public class MenuModulo {
                 modulos.forEach(System.out::println);
                 break;
             case 50:
-                opcao = cadastrarModulo(null,null,null,null);
+                opcao = cadastrarModulo();
                 break;
             case 51:
-                definirStatus(null);
+                opcao = editarModulo(null);
                 break;
             case 52:
                 definirPrazo(null);
                 break;
-            case 53:
-                addHabilidade(null);
-                break;
-            case 54: return "";
+            case 53: return "";
             default:
                 System.out.println("\nOpção inválida!");
                 break;
@@ -65,9 +62,9 @@ public class MenuModulo {
                     return "";
                 }
                 modulo = getModulo();
+                return definirPrazo(modulo);
             }
-            System.out.print("\nInforme o prazo limite para avaliação do módulo: ");
-            String num = scanner.nextLine();
+            String num = obterString("\nInforme o prazo limite para avaliação do módulo: ");
             int prazo = Integer.parseInt(num);
             if (prazo < 0) {
                 System.out.println("\nInforme um valor positivo!");
@@ -76,133 +73,97 @@ public class MenuModulo {
             int index = modulos.indexOf(modulo);
             modulo.setPrazo_limite(prazo);
             modulos.set(index, modulo);
-            alterarTrilha(modulo.getTrilha());
+            alterarTrilha(modulo);
+            return "";
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return definirPrazo(modulo);
         }
-        return "";
     }
 
-    private static String definirStatus(Modulo modulo) {
-        if (modulo == null) {
-            if(modulos.isEmpty()) {
-                System.out.println("\nAinda não há módulos cadastrados!");
-                return "";
-            }
-            try {
-                modulo = getModulo();
-                return definirStatus(modulo);
-            }
-            catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-                return definirStatus(modulo);
-            }
+    private static String editarModulo(Modulo modulo) {
+        if (modulos.isEmpty()) {
+            System.out.println("\nNão há módulos cadastrados!");
+            return "";
         }
-        int index = modulos.indexOf(modulo);
-        String nome = definirStatus();
-        Status status = Status.getStatus(nome);
-        modulo.definirStatus(status);
-        modulos.set(index, modulo);
-        alterarTrilha(modulo.getTrilha());
-        return "";
-    }
-
-    private static String definirStatus() {
-        System.out.print("\nDeseja informar o status? (S / N)");
-        String opt = scanner.nextLine();
-        try {
-            if (opt.equalsIgnoreCase("S")) {
-                Status s = (Status) getEnum(Status.values(), "o status do módulo:");
-                if(s != null) return s.getNome();
-            } else if (opt.equalsIgnoreCase("N")) {
-                return "";
-            }
-            else {
-                System.out.println("\nOpção inválida!");
-            }
-            return definirStatus();
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return definirStatus();
-        }
-    }
-
-    private static String addHabilidade(Modulo modulo) {
         try {
             if(modulo == null) {
-                if(modulos.isEmpty()) {
-                    System.out.println("\nAinda não há módulos cadastrados!");
-                    return "";
-                }
                 modulo = getModulo();
+                return editarModulo(modulo);
             }
-            System.out.print("\nInforme uma habilidade ou '0' para continuar: ");
-            String hab = scanner.nextLine();
-            validarString(hab, "");
-            if(hab.equals("0")) return "";
+            Modulo m = criarModulo(modulo.getTrilha(), modulo.getNome(), null, null);
             int index = modulos.indexOf(modulo);
-            modulo.addHabilidades(hab);
+            modulo.setTarefaValidacao(m.getTarefaValidacao());
+            modulo.definirStatus(m.getStatus());
+            modulo.addHabilidades(m.getHabilidades().toArray(new String[0]));
             modulos.set(index, modulo);
-            alterarTrilha(modulo.getTrilha());
+            alterarTrilha(modulo);
+            System.out.println("\nMódulo editado com sucesso!");
+            return "";
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return addHabilidade(modulo);
+            return editarModulo(modulo);
         }
+    }
+
+    private static String cadastrarModulo() {
+        if (getTrilhas().isEmpty()) {
+            System.out.println("\nPrimeiramente, cadastre alguma trilha!");
+            return "0";
+        }
+        Modulo modulo = criarModulo(null, null, null, null);
+        modulos.add(modulo);
+        alterarTrilha(modulo);
+        System.out.println("\nMódulo cadastrado com sucesso!");
         return "";
     }
 
-    private static String cadastrarModulo(Trilha trilha, String nome, String tarefa, String status) {
-
+    private static Modulo criarModulo(Trilha trilha, String nome, String tarefa, String status) {
         try {
             if (trilha == null) {
-                if (getTrilhas().isEmpty()) {
-                    System.out.println("\nPrimeiramente, cadastre alguma trilha!");
-                    return "0";
-                }
                 trilha = getTrilha();
-                return cadastrarModulo(trilha,nome,tarefa, status);
+                return criarModulo(trilha,nome,tarefa, status);
             }
             else if(nome == null) {
-                System.out.print("\nInforme o nome do módulo: ");
-                final String n = scanner.nextLine();
-                validarString(n,"");
+                final String n = obterString("\nInforme o nome do módulo: ");
                 boolean contem = trilha.getModulos().stream().anyMatch(m -> m.getNome().equalsIgnoreCase(n));
                 if(contem) {
                     System.out.println("\nA trilha "+trilha.getNome() +" já possui um módulo com esse nome!");
-                    return cadastrarModulo(trilha,null, tarefa, status);
+                    return criarModulo(trilha,null, tarefa, status);
                 }
-                return cadastrarModulo(trilha, n, tarefa, status);
+                return criarModulo(trilha, n, tarefa, status);
             }
             else if(tarefa == null) {
-                System.out.print("\ninformar a tarefa de validação ou aperte 'enter' para pular: ");
-                tarefa = scanner.nextLine();
-                return cadastrarModulo(trilha, nome, tarefa, status);
+                tarefa = obterString("\ninforme a tarefa de validação ou '0' para pular: ");
+                return criarModulo(trilha, nome, tarefa, status);
             }
             else if(status == null) {
-                status = definirStatus();
-                return cadastrarModulo(trilha, nome, tarefa,status);
+                boolean definir = opcaoBooleana("\nDeseja informar o status do módulo? (S / N) ");
+                if(definir) {
+                    Status s = (Status) getEnum(Status.values(), "o status do módulo:");
+                    return criarModulo(trilha, nome, tarefa, s == null ? null : s.getNome());
+                }
+                return criarModulo(trilha, nome, tarefa, "");
             }
-            Modulo modulo = new Modulo(trilha, nome, Status.getStatus(status), tarefa);
-            modulos.add(modulo);
-            alterarTrilha(modulo.getTrilha());
-            addHabilidade(modulo);
-            System.out.println("\nMódulo cadastrado com sucesso!");
+            String hab = obterString("\nInforme uma habilidade ou '0' para continuar: ");
+            Modulo modulo = new Modulo(trilha, nome, Status.getStatus(status),
+                    tarefa.equals("0") ? null : tarefa);
+            if(!hab.equals("0")) {
+                modulo.addHabilidades(hab);
+            }
+            return modulo;
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return cadastrarModulo(trilha,nome,tarefa,status);
+            return criarModulo(trilha,nome,tarefa,status);
         }
-        return "";
     }
 
     public static Modulo getModulo() {
         Trilha trilha = getTrilha();
-        System.out.print("\nInforme o nome do módulo: ");
-        final String nome = scanner.nextLine();
+        final String nome = obterString("\nInforme o nome do módulo: ");
         return trilha.getModulos().stream().filter(t -> t.getNome().equalsIgnoreCase(nome))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("\nMódulo não encontrado!"));
     }

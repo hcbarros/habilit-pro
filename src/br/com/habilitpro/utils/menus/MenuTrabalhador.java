@@ -13,7 +13,6 @@ import static br.com.habilitpro.utils.menus.MenuModulo.getModulos;
 import static br.com.habilitpro.utils.Validador.validarString;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -49,10 +48,10 @@ public class MenuTrabalhador {
                 opcao = editarTrabalhador(null);
                 break;
             case 52:
-                opcao = associarModuloATrabalhador(null);
+                opcao = associarModuloATrabalhador();
                 break;
             case 53:
-                opcao = avaliarModuloTrabalhador();
+                opcao = avaliarModuloTrabalhador(null);
                 break;
             case 54:
                 opcao = mudarDeEmpresa(null);
@@ -116,15 +115,43 @@ public class MenuTrabalhador {
         }
     }
 
-    private static String avaliarModuloTrabalhador() {
+    private static String avaliarModuloTrabalhador(Trabalhador trabalhador) {
         try {
-            Trabalhador trabalhador = null;
-            ModuloTrabalhador mt = criarModuloTrabalhador(null, trabalhador,null,null);
+            if(trabalhador == null) {
+                trabalhador = getTrabalhador();
+                if(trabalhador == null) {
+                    return "";
+                }
+                return avaliarModuloTrabalhador(trabalhador);
+            }
+            ModuloTrabalhador mt = criarModuloTrabalhador(null, trabalhador,null,null, false);
             if(mt == null) {
                 return "";
             }
             int index = trabalhadores.indexOf(trabalhador);
             trabalhador.setModuloTrabalhador(mt.getModulo().getNome(), mt.getAvaliacao(), mt.getAnotacao());
+            trabalhadores.set(index, trabalhador);
+            System.out.println("\nO módulo "+mt.getModulo().getNome()+ " foi avaliado!");
+            return "";
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return avaliarModuloTrabalhador(trabalhador);
+        }
+    }
+
+    private static String associarModuloATrabalhador() {
+        try {
+            Trabalhador trabalhador = getTrabalhador();
+            if(trabalhador == null) {
+                return "";
+            }
+            ModuloTrabalhador mt = criarModuloTrabalhador(null, trabalhador,null,null,true);
+            if(mt == null) {
+                return "";
+            }
+            int index = trabalhadores.indexOf(trabalhador);
+            trabalhador.addModuloTrabalhador(mt);
             trabalhadores.set(index, trabalhador);
             System.out.println("\nO módulo "+mt.getModulo().getNome()+
                     " foi associado ao trabalhador "+trabalhador.getNome());
@@ -132,38 +159,12 @@ public class MenuTrabalhador {
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return avaliarModuloTrabalhador();
+            return associarModuloATrabalhador();
         }
-    }
-
-    private static String associarModuloATrabalhador(Trabalhador trabalhador) {
-        try {
-            if(trabalhador == null) {
-                trabalhador = getTrabalhador();
-                if(trabalhador == null) {
-                    return "";
-                }
-                ModuloTrabalhador mt = criarModuloTrabalhador(null, trabalhador,null,null);
-                if(mt == null) {
-                    return "";
-                }
-                int index = trabalhadores.indexOf(trabalhador);
-                trabalhador.addModuloTrabalhador(mt);
-                trabalhadores.set(index, trabalhador);
-                System.out.println("\nO módulo "+mt.getModulo().getNome()+
-                        " foi associado ao trabalhador "+trabalhador.getNome());
-                return "";
-            }
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return associarModuloATrabalhador(trabalhador);
-        }
-        return "";
     }
 
     private static ModuloTrabalhador criarModuloTrabalhador(Modulo modulo, Trabalhador trabalhador,
-                                                     String avaliacao, String anotacao) {
+                                                     String avaliacao, String anotacao, boolean associar) {
 
         try {
             if (modulo == null) {
@@ -173,53 +174,46 @@ public class MenuTrabalhador {
                 }
                 modulo = getModulo();
                 String cnpj = modulo.getTrilha().getEmpresa().getCnpj();
-                if(trabalhador != null) {
-                    if(trabalhador.getEmpresa().getCnpj() != cnpj){
-                        System.out.println("\nEsse módulo pertence a empresa " + cnpj + " e " +
-                                trabalhador.getNome() + " pertence a " + trabalhador.getEmpresa().getCnpj());
-                        return null;
-                    }
-                    if(trabalhador.possuiModulo(modulo)) {
-                        System.out.println("\nO módulo "+modulo.getNome() + " já está associado a esse trabalhador!");
-                        return null;
-                    }
-                }
-                return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao);
-            }
-            else if(trabalhador == null) {
                 if(modulo.getStatus() == Status.FINALIZADO) {
                     System.out.println("\nA avaliação deste módulo está bloqueada para edição!");
                     return null;
                 }
-                trabalhador = getTrabalhador();
-                if(trabalhador == null) return null;
-                if(!trabalhador.possuiModulo(modulo)) {
-                    System.out.println("\nO módulo " + modulo.getNome() +" não está associado a esse trabalhador!");
+                if(trabalhador.getEmpresa().getCnpj() != cnpj && associar){
+                    System.out.println("\nEsse módulo pertence a empresa " + cnpj + " e " +
+                            trabalhador.getNome() + " pertence a " + trabalhador.getEmpresa().getCnpj());
                     return null;
                 }
-                return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao);
+                if(associar && trabalhador.possuiModulo(modulo)) {
+                    System.out.println("\nO módulo "+modulo.getNome() + " já está associado a esse trabalhador!");
+                    return null;
+                }
+                if(!associar && !trabalhador.possuiModulo(modulo)) {
+                    System.out.println("\nO módulo "+modulo.getNome() + " não está associado a esse trabalhador!");
+                    return null;
+                }
+                return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao, associar);
             }
             else if(avaliacao == null) {
                 boolean avaliar = opcaoBooleana("\nDeseja avaliar esse módulo? (S / N)");
                 if(avaliar) {
                     Avaliacao av = (Avaliacao) getEnum(Avaliacao.values(), "a avaliação do módulo:");
-                    return criarModuloTrabalhador(modulo, trabalhador, av.getNome(), anotacao);
+                    return criarModuloTrabalhador(modulo, trabalhador, av == null ? null : av.getNome(), anotacao, associar);
                 }
-                return criarModuloTrabalhador(modulo, trabalhador, "", anotacao);
+                return criarModuloTrabalhador(modulo, trabalhador, "", anotacao, associar);
             }
             else if(anotacao == null) {
                 boolean anotar = opcaoBooleana("\nDeseja escrever alguma anotação? (S / N)");
                 if(anotar) {
                     anotacao = obterString("\nDigite alguma anotação: ");
-                    return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao);
+                    return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao, associar);
                 }
-                return criarModuloTrabalhador(modulo, trabalhador, "", "");
+                return criarModuloTrabalhador(modulo, trabalhador, avaliacao, "", associar);
             }
             return new ModuloTrabalhador(modulo, Avaliacao.getAvaliacao(avaliacao), anotacao, trabalhador);
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao);
+            return criarModuloTrabalhador(modulo, trabalhador, avaliacao, anotacao, associar);
         }
     }
 

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 
 public class Trilha {
@@ -51,7 +52,18 @@ public class Trilha {
     }
 
     public void addModulo(Modulo modulo) {
-        if(modulo != null){
+        int index = IntStream.range(0, modulos.size())
+                .filter(i -> modulo != null && modulo.getNome().equalsIgnoreCase(modulos.get(i).getNome()))
+                .findFirst().orElse(-1);
+        if(index >= 0) {
+            Modulo m = modulos.get(index);
+            m.setTarefaValidacao(modulo.getTarefaValidacao());
+            m.definirStatus(modulo.getStatus());
+            m.setPrazo_limite(modulo.getPrazo_limite());
+            m.addHabilidades(modulo.getHabilidades().toArray(new String[0]));
+            modulos.set(index, m);
+        }
+        else if(modulo != null) {
             modulos.add(modulo);
         }
     }

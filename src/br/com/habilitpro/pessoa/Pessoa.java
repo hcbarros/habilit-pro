@@ -18,8 +18,7 @@ public abstract class Pessoa {
     }
 
     public void setNome(String nome) {
-        validarString(nome, "Informe o nome da pessoa!");
-        this.nome = nome;
+        this.nome = validarString(nome, "Informe o nome da pessoa!");
     }
 
     public String getCpf() {

@@ -46,8 +46,7 @@ public class Trabalhador extends Pessoa {
     }
 
     public void setSetor(String setor) {
-        validarString(setor, "Informe o setor da empresa!");
-        this.setor = setor;
+        this.setor = validarString(setor, "Informe o setor da empresa!");
     }
 
     public String getFuncao() {

@@ -11,6 +11,7 @@ import java.util.*;
 import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
 import static br.com.habilitpro.utils.Buscador.*;
+import static br.com.habilitpro.utils.menus.MenuTrabalhador.obterString;
 
 public class MenuEmpresa {
 
@@ -57,26 +58,31 @@ public class MenuEmpresa {
     }
 
     private static String editarEmpresa() {
-        System.out.print("\nInforme o CNPJ da empresa ou '0' para voltar ao menu anterior: ");
-        String doc = scanner.nextLine();
-        if(doc.equals("0")) return "";
-        Empresa em = null;
         try{
+            String doc = obterString("\nInforme o CNPJ da empresa ou '0' para voltar ao menu anterior: ");
+            if(doc.equals("0")) return "";
             final String cnpj = formatarCNPJ(doc);
-            em = empresas.stream().filter(e -> e.getCnpj().equals(cnpj))
+            Empresa empresa = empresas.stream().filter(e -> e.getCnpj().equals(cnpj))
                     .findFirst().orElseThrow(() -> new IllegalArgumentException("\nEmpresa não encontrada!"));
+            int index = empresas.indexOf(empresa);
+            Empresa emp = criarEmpresa(empresa.getNome(), empresa.getCnpj(),null,null,
+                    null,null,null,null);
+            empresa.setTipo(emp.getTipo());
+            String tipo = emp.getTipo() == TipoEmpresa.MATRIZ ?
+                    null : emp.getNomeFilial();
+            empresa.setNomeFilial(tipo);
+            empresa.setSegmento(emp.getSegmento());
+            empresa.setEstado(emp.getEstado());
+            empresa.setCidade(emp.getCidade());
+            empresa.setRegional(emp.getRegional());
+            empresas.set(index, empresa);
+            System.out.println("\nEmpresa editada com sucesso!");
+            return "";
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return editarEmpresa();
         }
-        int index = empresas.indexOf(em);
-        Empresa emp = criarEmpresa(em.getNome(), em.getCnpj(),null,null,
-                null,null,null,null);
-
-        empresas.set(index, emp);
-        System.out.println("\nEmpresa editada com sucesso!");
-        return "";
     }
 
     private static Empresa criarEmpresa(String nome, String cnpj, TipoEmpresa tipo, String nomeFilial,
@@ -84,25 +90,22 @@ public class MenuEmpresa {
 
         try {
             if (nome == null) {
-                System.out.print("\nInforme o nome da empresa: ");
-                final String n = scanner.nextLine();
-                long c = empresas.stream().filter(e -> e.getNome().equalsIgnoreCase(n)).count();
-                if(c > 0) {
-                    System.out.println("Já existe uma empresa cadastrada com esse nome!");
+                final String n = obterString("\nInforme o nome da empresa: ");
+                boolean existe = empresas.stream().anyMatch(e -> e.getNome().equalsIgnoreCase(n));
+                if(existe) {
+                    System.out.println("\nJá existe uma empresa cadastrada com esse nome!");
                 }
-                validarString(n, "");
-                return criarEmpresa(c == 0 ? n : null,null,null,null,
+                return criarEmpresa(existe ? null : n,null,null,null,
                                 null,null,null,null);
             }
             else if(cnpj == null) {
-                System.out.print("\nInforme o CNPJ: ");
-                String documento = scanner.nextLine();
+                String documento = obterString("\nInforme o CNPJ: ");
                 final String doc = formatarCNPJ(documento);
-                long c = empresas.stream().filter(e -> e.getCnpj().equalsIgnoreCase(doc)).count();
-                if(c > 0) {
-                    System.out.println("Já existe uma empresa cadastrada com esse CNPJ!");
+                boolean existe = empresas.stream().anyMatch(e -> e.getCnpj().equals(doc));
+                if(existe) {
+                    System.out.println("\nJá existe uma empresa cadastrada com esse CNPJ!");
                 }
-                return criarEmpresa(nome, c == 0 ? doc : null, null,null,
+                return criarEmpresa(nome, existe ? null : doc, null,null,
                                 null,null,null,null);
             }
             else if(tipo == null) {
@@ -111,9 +114,7 @@ public class MenuEmpresa {
                                         null,null,null);
             }
             else if(nomeFilial == null && tipo == TipoEmpresa.FILIAL) {
-                System.out.print("\nInforme o nome da filial: ");
-                String filial = scanner.nextLine();
-                validarString(filial,"");
+                String filial = obterString("\nInforme o nome da filial: ");
                 return criarEmpresa(nome, cnpj, tipo, filial,null,
                                         null,null,null);
             }
@@ -138,10 +139,6 @@ public class MenuEmpresa {
         }
         catch (IllegalArgumentException e) {
             System.out.print(e.getMessage());
-            return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
-        }
-        catch (IndexOutOfBoundsException e) {
-            System.out.print("\nOpção inválida!");
             return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
         }
         return new Empresa(nome,cnpj,tipo,nomeFilial,segmento,estado[0],cidade,regional);
@@ -191,9 +188,8 @@ public class MenuEmpresa {
     }
 
     public static Empresa getEmpresa() {
-        System.out.print("\nInforme o cnpj da empresa: ");
-        String cnpj = scanner.nextLine();
-        String doc = formatarCNPJ(cnpj);
+        String cnpj = obterString("\nInforme o cnpj da empresa: ");
+        final String doc = formatarCNPJ(cnpj);
         return empresas.stream().filter(e -> e.getCnpj().equals(doc))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("\nEmpresa não encontrada!"));
     }
