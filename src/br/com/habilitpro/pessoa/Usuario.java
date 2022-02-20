@@ -50,5 +50,17 @@ public class Usuario extends Pessoa {
         }
     }
 
+    @Override
+    public String toString() {
+        String perfis = "";
+        for(Perfil p: this.perfis) {
+            perfis += "\n\t- "+p.getNome();
+        }
+        return "\nNome: "+getNome() +
+                "\nCPF: "+getCpf() +
+                "\nEmail: "+email +
+                "\nSenha: "+senha +
+                (perfis.isEmpty() ? "" : "\nPerfis: "+ perfis);
+    }
 
 }

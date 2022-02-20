@@ -41,19 +41,8 @@ public class Validador {
     }
 
     public static String validarSenha(String senha) {
-        boolean temNumero = false;
-        boolean temLetra = false;
-        if(senha != null) {
-            for(char c: senha.toCharArray()) {
-                if(Character.isDigit(c)) {
-                    temNumero = true;
-                }
-                if(Character.isLetter(c)) {
-                    temLetra = true;
-                }
-            }
-        }
-        if(senha == null || senha.length() < 8 || !temLetra || !temNumero) {
+        Pattern pattern = Pattern.compile("(?=.*\\d)(?=.*[a-zA-Z]).{8,}");
+        if(senha == null || !pattern.matcher(senha).matches()) {
             throw new IllegalArgumentException(
                     "\nA senha deve ter ao menos 1 letra, 1 número e no mínimo 8 caracteres!");
         }

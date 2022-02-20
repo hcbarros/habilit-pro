@@ -106,7 +106,7 @@ public class MenuEmpresa {
                                 null,null,null,null);
             }
             else if(tipo == null) {
-                tipo = (TipoEmpresa) getEnum(TipoEmpresa.values());
+                tipo = (TipoEmpresa) getEnum(TipoEmpresa.values(), "o tipo da empresa:");
                 return criarEmpresa(nome, cnpj, tipo,null,null,
                                         null,null,null);
             }
@@ -118,7 +118,7 @@ public class MenuEmpresa {
                                         null,null,null);
             }
             else if(segmento == null) {
-                segmento = (Segmento) getEnum(Segmento.values());
+                segmento = (Segmento) getEnum(Segmento.values(), "o segmento da empresa:");
                 return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento,
                                         null,null,null);
             }
@@ -132,7 +132,7 @@ public class MenuEmpresa {
                 return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade,null);
             }
             else if(regional == null) {
-                regional = (Regional) getEnum(Regional.values());
+                regional = (Regional) getEnum(Regional.values(), "a regional SENAI da empresa:");
                 return criarEmpresa(nome, cnpj, tipo, nomeFilial, segmento, estado, cidade, regional);
             }
         }
@@ -147,8 +147,8 @@ public class MenuEmpresa {
         return new Empresa(nome,cnpj,tipo,nomeFilial,segmento,estado[0],cidade,regional);
     }
 
-    public static AuxilioEnum getEnum(AuxilioEnum[] array) {
-        System.out.println("\nInforme o(a) "+array[0].getClass().getSimpleName()+ " da empresa: ");
+    public static AuxilioEnum getEnum(AuxilioEnum[] array, String texto) {
+        System.out.println("\nInforme "+texto);
         for(int i = 0; i < array.length; i++) {
             System.out.print((i%4 == 0 ? "\n" : "") + "    " + (i+1) + " - " + array[i].getNome());
         }

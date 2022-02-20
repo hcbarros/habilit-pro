@@ -69,7 +69,7 @@ public class MenuTrilha {
                 return definirSatisfacao(trilha);
             }
             int index = trilhas.indexOf(trilha);
-            Satisfacao sat = (Satisfacao) getEnum(Satisfacao.values());
+            Satisfacao sat = (Satisfacao) getEnum(Satisfacao.values(),"o nível de satisfação com a trilha:");
             validarObjeto(sat, "\nOpção inválida!");
             trilha.setSatisfacao(sat);
             trilhas.set(index, trilha);

@@ -202,7 +202,7 @@ public class MenuTrabalhador {
             else if(avaliacao == null) {
                 boolean avaliar = opcaoBooleana("\nDeseja avaliar esse módulo? (S / N)");
                 if(avaliar) {
-                    Avaliacao av = (Avaliacao) getEnum(Avaliacao.values());
+                    Avaliacao av = (Avaliacao) getEnum(Avaliacao.values(), "a avaliação do módulo:");
                     return criarModuloTrabalhador(modulo, trabalhador, av.getNome(), anotacao);
                 }
                 return criarModuloTrabalhador(modulo, trabalhador, "", anotacao);
@@ -304,13 +304,13 @@ public class MenuTrabalhador {
         }
     }
 
-    private static String obterString(String texto) {
+    public static String obterString(String texto) {
         System.out.print(texto);
         String n = scanner.nextLine();
         return validarString(n, "");
     }
 
-    private static boolean opcaoBooleana(String texto) {
+    public static boolean opcaoBooleana(String texto) {
         System.out.print(texto);
         String opt = scanner.nextLine();
         if(opt.equalsIgnoreCase("S")) {

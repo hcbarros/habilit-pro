@@ -114,7 +114,7 @@ public class MenuModulo {
         String opt = scanner.nextLine();
         try {
             if (opt.equalsIgnoreCase("S")) {
-                Status s = (Status) getEnum(Status.values());
+                Status s = (Status) getEnum(Status.values(), "o status do módulo:");
                 if(s != null) return s.getNome();
             } else if (opt.equalsIgnoreCase("N")) {
                 return "";

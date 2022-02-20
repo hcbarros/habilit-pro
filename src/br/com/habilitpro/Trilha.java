@@ -78,8 +78,8 @@ public class Trilha {
     public String toString() {
         String textoModulos = modulos.isEmpty() ? "Não há módulos cadastrados!" : "";
         for(Modulo m: modulos) {
-            textoModulos += "\t\n- Nome: "+ m.getNome() +
-                            "\t\n- Status: "+ (m.getStatus() == null ? "" : m.getStatus().getNome());
+            textoModulos += "\n\t- Nome: "+ m.getNome() +
+                            "\n\t- Status: "+ (m.getStatus() == null ? "" : m.getStatus().getNome());
         }
         return "\nNome da empresa: "+empresa.getNome() +
                 "\nCNPJ da empresa: "+empresa.getCnpj() +
