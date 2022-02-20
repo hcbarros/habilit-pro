@@ -1,6 +1,6 @@
 package br.com.habilitpro.utils.menus;
 
-import br.com.habilitpro.Empresa;
+import br.com.habilitpro.classesPrincipais.Empresa;
 import br.com.habilitpro.enums.Regional;
 import br.com.habilitpro.enums.Segmento;
 import br.com.habilitpro.enums.TipoEmpresa;
@@ -8,7 +8,6 @@ import br.com.habilitpro.interfaces.AuxilioEnum;
 
 import java.util.*;
 
-import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
 import static br.com.habilitpro.utils.Buscador.*;
 import static br.com.habilitpro.utils.menus.MenuTrabalhador.obterString;

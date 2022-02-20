@@ -1,6 +1,6 @@
 package br.com.habilitpro.utils;
 
-import br.com.habilitpro.Empresa;
+import br.com.habilitpro.classesPrincipais.Empresa;
 
 import java.util.HashMap;
 import java.util.Map;

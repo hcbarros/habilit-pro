@@ -1,12 +1,11 @@
 package br.com.habilitpro.utils.menus;
 
-import br.com.habilitpro.Empresa;
-import br.com.habilitpro.Modulo;
-import br.com.habilitpro.Trilha;
+import br.com.habilitpro.classesPrincipais.Empresa;
+import br.com.habilitpro.classesPrincipais.Modulo;
+import br.com.habilitpro.classesPrincipais.Trilha;
 import br.com.habilitpro.enums.Satisfacao;
 
 import static br.com.habilitpro.utils.Validador.validarObjeto;
-import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEmpresas;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEmpresa;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.getEnum;

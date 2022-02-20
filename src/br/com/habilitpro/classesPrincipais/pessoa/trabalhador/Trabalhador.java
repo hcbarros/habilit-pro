@@ -1,10 +1,10 @@
-package br.com.habilitpro.pessoa.trabalhador;
+package br.com.habilitpro.classesPrincipais.pessoa.trabalhador;
 
-import br.com.habilitpro.Empresa;
-import br.com.habilitpro.Modulo;
-import br.com.habilitpro.Trilha;
+import br.com.habilitpro.classesPrincipais.Empresa;
+import br.com.habilitpro.classesPrincipais.Modulo;
+import br.com.habilitpro.classesPrincipais.Trilha;
 import br.com.habilitpro.enums.Avaliacao;
-import br.com.habilitpro.pessoa.Pessoa;
+import br.com.habilitpro.classesPrincipais.pessoa.Pessoa;
 import static br.com.habilitpro.utils.Validador.*;
 import static br.com.habilitpro.utils.Formatador.formatarData;
 

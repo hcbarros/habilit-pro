@@ -1,4 +1,4 @@
-package br.com.habilitpro.pessoa;
+package br.com.habilitpro.classesPrincipais.pessoa;
 
 import static br.com.habilitpro.utils.Validador.validarString;
 import static br.com.habilitpro.utils.Formatador.formatarCPF;

@@ -1,11 +1,11 @@
 package br.com.habilitpro.utils.menus;
 
-import br.com.habilitpro.Empresa;
-import br.com.habilitpro.Modulo;
+import br.com.habilitpro.classesPrincipais.Empresa;
+import br.com.habilitpro.classesPrincipais.Modulo;
 import br.com.habilitpro.enums.Avaliacao;
 import br.com.habilitpro.enums.Status;
-import br.com.habilitpro.pessoa.trabalhador.ModuloTrabalhador;
-import br.com.habilitpro.pessoa.trabalhador.Trabalhador;
+import br.com.habilitpro.classesPrincipais.pessoa.trabalhador.ModuloTrabalhador;
+import br.com.habilitpro.classesPrincipais.pessoa.trabalhador.Trabalhador;
 import static br.com.habilitpro.utils.Formatador.formatarCPF;
 import static br.com.habilitpro.utils.menus.MenuEmpresa.*;
 import static br.com.habilitpro.utils.menus.MenuModulo.getModulo;

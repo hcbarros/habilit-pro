@@ -1,4 +1,4 @@
-package br.com.habilitpro.pessoa;
+package br.com.habilitpro.classesPrincipais.pessoa;
 
 import br.com.habilitpro.enums.Perfil;
 

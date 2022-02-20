@@ -1,7 +1,7 @@
 package br.com.habilitpro.utils.menus;
 
 import br.com.habilitpro.enums.Perfil;
-import br.com.habilitpro.pessoa.Usuario;
+import br.com.habilitpro.classesPrincipais.pessoa.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;

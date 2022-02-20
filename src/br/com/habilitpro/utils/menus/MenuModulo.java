@@ -1,7 +1,7 @@
 package br.com.habilitpro.utils.menus;
 
-import br.com.habilitpro.Modulo;
-import br.com.habilitpro.Trilha;
+import br.com.habilitpro.classesPrincipais.Modulo;
+import br.com.habilitpro.classesPrincipais.Trilha;
 import br.com.habilitpro.enums.Status;
 
 import java.util.ArrayList;

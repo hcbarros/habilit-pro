@@ -1,4 +1,4 @@
-package br.com.habilitpro;
+package br.com.habilitpro.classesPrincipais;
 
 import br.com.habilitpro.enums.Status;
 

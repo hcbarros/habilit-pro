@@ -1,4 +1,4 @@
-package br.com.habilitpro;
+package br.com.habilitpro.classesPrincipais;
 
 import br.com.habilitpro.enums.Regional;
 import br.com.habilitpro.enums.Segmento;
@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static br.com.habilitpro.utils.Validador.*;
 import static br.com.habilitpro.utils.Formatador.formatarCNPJ;
 
 public class Empresa {
